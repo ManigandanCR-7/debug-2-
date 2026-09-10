@@ -146,148 +146,155 @@ def create_app():
 
     # --------------------------------------------------------
     # CODE EDITOR 2
-    # app/__init__.py
+    # app/gmail/__init__.py
     # --------------------------------------------------------
-    "editor2": r'''from flask import Blueprint, request, jsonify
-
-from app.youtube.player import create_youtube_url
-
-
-youtube_bp = Blueprint(
-    "youtube",
-    __name__
-)
-
-
-@youtube_bp.route(
-    "/play",
-    methods=["POST"]
-)
-def play():
-
-    data = request.get_json(
-        silent=True
-    ) or {}
-
-    command = data.get(
-        "command",
-        ""
-    ).strip()
-
-    if not command:
-
-        return jsonify({
-            "success": False,
-            "message": "Song name is required"
-        }), 400
-
-    url = create_youtube_url(
-        command
-    )
-
-    if not url:
-
-        return jsonify({
-            "success": False,
-            "message": "Could not find the song"
-        }), 404
-
-    return jsonify({
-        "success": True,
-        "type": "youtube",
-        "query": command,
-        "url": url
-    })''',
+    "editor2": r'''from .gmail_write import is_email_command, extract_email, create_gmail_url
+from .gmail_gen import generate_email_with_gemini''',
 
 
     # --------------------------------------------------------
     # CODE EDITOR 3
-    # app/youtube/player.py
+    # app/gmail/gmail_gen.py
+
     # --------------------------------------------------------
-    "editor3": r'''import re
-import urllib.parse
+    "editor3": r'''import os
+import json
+import re
+import time
+import random
 import urllib.request
+import urllib.error
 
+API_KEY = os.getenv("GEMINI_API_KEY", "")
+MODEL = os.getenv("GEMINI_MODEL", "gemini-3.6-flash")
 
-def get_vid(query):
+def generate_email_with_gemini(command):
+    if not API_KEY:
+        raise RuntimeError("GEMINI_API_KEY is missing.")
 
-    try:
-        encoded = urllib.parse.quote(query)
+    prompt = f"""
+You are a professional Gmail email writing assistant.
 
-        url = (
-            "https://www.youtube.com/results"
-            "?search_query=" + encoded
-        )
+Convert the user's voice command into a professional email.
 
-        request = urllib.request.Request(
-            url,
-            headers={
-                "User-Agent": "Mozilla/5.0"
+Rules:
+- Do not copy the command literally.
+- Do not explain anything.
+- Do not invent names, dates, prices, companies, attachments, or facts.
+- Keep the email natural and concise.
+- Include an appropriate greeting and closing.
+
+Output exactly:
+
+SUBJECT: <subject>
+BODY:
+<email body>
+
+User command:
+{command}
+"""
+
+    url = (
+        f"https://generativelanguage.googleapis.com/"
+        f"v1beta/models/{MODEL}:generateContent"
+    )
+
+    payload = {
+        "contents": [{"parts": [{"text": prompt}]}],
+        "generationConfig": {
+            "temperature": 0.7,
+            "maxOutputTokens": 800
+        }
+    }
+
+    req = urllib.request.Request(
+        url,
+        data=json.dumps(payload).encode(),
+        headers={
+            "Content-Type": "application/json",
+            "x-goog-api-key": API_KEY
+        },
+        method="POST"
+    )
+
+    for attempt in range(4):
+        try:
+            with urllib.request.urlopen(req, timeout=30) as response:
+                data = json.loads(response.read().decode())
+
+            text = data["candidates"][0]["content"]["parts"][0]["text"]
+            text = re.sub(r"```(?:text)?|```", "", text).strip()
+
+            subject = re.search(r"SUBJECT:\s*(.+)", text, re.I)
+            body = re.search(r"BODY:\s*([\s\S]+)", text, re.I)
+
+            if not subject or not body:
+                raise RuntimeError("Gemini returned an invalid email format.")
+
+            return {
+                "subject": subject.group(1).strip(),
+                "body": body.group(1).strip()
             }
-        )
 
-        data = urllib.request.urlopen(
-            request,
-            timeout=5
-        ).read().decode("utf-8", errors="ignore")
+        except urllib.error.HTTPError as e:
+            if e.code != 429 or attempt == 3:
+                try:
+                    detail = e.read().decode()
+                except Exception:
+                    detail = str(e)
+                raise RuntimeError(f"Gemini API error: {detail}")
 
-        ids = re.findall(
-            r'"videoId":"([^"]+)"',
-            data
-        )
+            time.sleep((2 ** attempt) + random.random())
 
-        return ids[0] if ids else None
-
-    except Exception:
-        return None
-
-
-def create_youtube_url(command):
-
-    text = command.lower().strip()
-
-    patterns = [
-        r"play\s+song\s+(.+)",
-        r"play\s+music\s+(.+)",
-        r"play\s+(.+)",
-        r"youtube\s+(.+)"
-    ]
-
-    query = command
-
-    for pattern in patterns:
-
-        match = re.search(
-            pattern,
-            text
-        )
-
-        if match:
-
-            query = match.group(1)
-            break
-
-    query = query.strip()
-
-    video_id = get_vid(query)
-
-    if not video_id:
-        return None
-
-    return (
-        "https://www.youtube.com/embed/"
-        + video_id
-        + "?autoplay=1&mute=0"
-    )''',
+        except Exception:
+            if attempt == 3:
+                raise
+            time.sleep(1)''',
 
 
     # --------------------------------------------------------
     # CODE EDITOR 4
-    # wsgi.py
+    # app/gmail/gmail_write.py
     # --------------------------------------------------------
-    "editor4": r'''from app import create_app
+    "editor4": r'''import os
+import re
+import urllib.parse
 
-app = create_app()''',
+
+KEYWORDS = (
+    "gmail", "email", "e-mail", "mail",
+    "write an email", "send an email", "draft an email",
+    "compose an email", "write mail", "send mail", "draft mail",
+    "compose mail"
+)
+
+def is_email_command(text):
+    text = text.lower()
+    return any(k in text for k in KEYWORDS)
+
+def extract_email(text):
+    match = re.search(r"[\w.+-]+@[\w.-]+\.\w+", text)
+    if match:
+        return match.group(0)
+
+    match = re.search(
+        r"([\w.+-]+)\s+at\s+([\w.-]+)\s+dot\s+(\w+)",
+        text.lower()
+    )
+    if match:
+        return f"{match.group(1)}@{match.group(2)}.{match.group(3)}"
+
+    return ""
+
+def create_gmail_url(subject="", body="", recipient=""):
+    params = urllib.parse.urlencode({
+        "view": "cm",
+        "fs": "1",
+        "to": recipient,
+        "su": subject,
+        "body": body
+    })
+    return f"https://mail.google.com/mail/u/0/?{params}"''',
 
 
     # --------------------------------------------------------
@@ -298,161 +305,596 @@ app = create_app()''',
 <html lang="en">
 
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<meta
+    name="viewport"
+    content="width=device-width,initial-scale=1"
+>
+
 <title>Nova AI</title>
 
+
 <style>
+
 body{
+
     margin:0;
+
     height:100vh;
+
     display:grid;
+
     place-items:center;
-    background:#09090b;
+
+    background:#111;
+
     color:white;
+
     font-family:Arial;
 }
 
+
 .card{
-    width:300px;
-    padding:35px;
+
+    width:400px;
+
+    padding:25px;
+
     text-align:center;
-    background:#151518;
-    border:1px solid #333;
-    border-radius:25px;
+
+    background:#222;
+
+    border:1px solid #444;
+
+    border-radius:10px;
 }
+
 
 .mic{
-    width:90px;
-    height:90px;
+
+    width:75px;
+
+    height:75px;
+
     border:0;
+
     border-radius:50%;
-    font-size:35px;
+
+    font-size:30px;
+
     cursor:pointer;
+
+    background:#eee;
 }
 
+
+.mic.listening{
+
+    background:#aaa;
+}
+
+
 .status{
-    margin-top:20px;
+
+    margin:15px;
+
     color:#aaa;
 }
 
-.song{
-    margin-top:10px;
+
+.command{
+
+    margin:10px;
+
+    color:#ccc;
+}
+
+
+.editor{
+
+    display:none;
+
+    margin-top:20px;
+
+    text-align:left;
+}
+
+
+.recipient{
+
+    color:#aaa;
+
     font-size:13px;
 }
 
-.listening{
-    transform:scale(1.1);
-    box-shadow:0 0 0 10px #ffffff18;
+
+input,
+textarea{
+
+    width:100%;
+
+    margin:6px 0;
+
+    padding:10px;
+
+    box-sizing:border-box;
+
+    background:#111;
+
+    color:white;
+
+    border:1px solid #444;
+
+    border-radius:5px;
 }
+
+
+textarea{
+
+    height:130px;
+
+    resize:vertical;
+}
+
+
+button.action{
+
+    padding:10px 14px;
+
+    margin-top:5px;
+
+    border:0;
+
+    border-radius:5px;
+
+    cursor:pointer;
+}
+
+
+.primary{
+
+    background:#666;
+
+    color:white;
+}
+
 </style>
+
 </head>
+
 
 <body>
 
+
 <div class="card">
 
-    <h2>Nova AI</h2>
 
-    <p>Say a song name</p>
+<h2>Nova AI</h2>
 
-    <button id="mic" class="mic">
-        🎙️
+
+<p>
+    Say a song name or create an email
+</p>
+
+
+<button
+    id="mic"
+    class="mic"
+>
+    🎙️
+</button>
+
+
+<div
+    id="status"
+    class="status"
+>
+    Tap microphone
+</div>
+
+
+<div
+    id="command"
+    class="command"
+></div>
+
+
+
+<!-- Gmail Editor -->
+
+<div
+    id="editor"
+    class="editor"
+>
+
+
+    <div
+        id="recipient"
+        class="recipient"
+    ></div>
+
+
+    <input
+        id="subject"
+        placeholder="Email subject"
+    >
+
+
+    <textarea
+        id="body"
+        placeholder="Email body"
+    ></textarea>
+
+
+    <button
+        id="open"
+        class="action primary"
+    >
+        Open in Gmail
     </button>
 
-    <div id="status" class="status">
-        Tap microphone
-    </div>
 
-    <div id="song" class="song"></div>
+    <button
+        id="regen"
+        class="action"
+    >
+        Regenerate
+    </button>
+
 
 </div>
 
+
+</div>
+
+
+
 <script>
 
-const mic=document.getElementById("mic");
-const status=document.getElementById("status");
-const song=document.getElementById("song");
 
-const SpeechRecognition=
+// --------------------------------------------------
+// DOM REFERENCES
+// --------------------------------------------------
+
+const $ =
+    id => document.getElementById(id);
+
+
+const mic =
+    $("mic");
+
+
+const status =
+    $("status");
+
+
+const commandBox =
+    $("command");
+
+
+const editor =
+    $("editor");
+
+
+const recipient =
+    $("recipient");
+
+
+const subject =
+    $("subject");
+
+
+const body =
+    $("body");
+
+
+
+// --------------------------------------------------
+// SPEECH RECOGNITION
+// --------------------------------------------------
+
+const SR =
     window.SpeechRecognition ||
     window.webkitSpeechRecognition;
 
-let youtubeTab=null;
-let listening=false;
 
-if(!SpeechRecognition){
+let recognition;
 
-    status.textContent=
+let listening = false;
+
+
+
+// --------------------------------------------------
+// COMMAND STATE
+// --------------------------------------------------
+
+let lastCommand = "";
+
+
+// Prevent duplicate email generation
+
+let emailGenerated = false;
+
+
+// Prevent multiple requests at the same time
+
+let generatingEmail = false;
+
+
+// YouTube tab
+
+let youtubeTab = null;
+
+
+
+// --------------------------------------------------
+// SPEECH RECOGNITION SETUP
+// --------------------------------------------------
+
+if(!SR){
+
+    status.textContent =
         "Speech recognition unavailable";
 
-    mic.disabled=true;
+    mic.disabled = true;
 
-}else{
+}
+else{
 
-    const recognition=
-        new SpeechRecognition();
+    recognition =
+        new SR();
 
-    recognition.lang="en-US";
-    recognition.continuous=false;
-    recognition.interimResults=false;
 
-    recognition.onstart=()=>{
+    recognition.lang =
+        "en-US";
 
-        listening=true;
 
-        mic.classList.add("listening");
+    recognition.continuous =
+        false;
 
-        status.textContent=
+
+    recognition.interimResults =
+        false;
+
+
+
+    recognition.onstart = () => {
+
+        listening = true;
+
+        mic.classList.add(
+            "listening"
+        );
+
+        status.textContent =
             "Listening...";
 
     };
 
-    recognition.onend=()=>{
 
-        listening=false;
 
-        mic.classList.remove("listening");
+    recognition.onend = () => {
 
-    };
+        listening = false;
 
-    recognition.onerror=()=>{
-
-        listening=false;
-
-        mic.classList.remove("listening");
-
-        status.textContent="Try again";
+        mic.classList.remove(
+            "listening"
+        );
 
     };
 
-    recognition.onresult=async(event)=>{
 
-        const command=
-            event.results[0][0]
+
+    recognition.onerror = e => {
+
+        listening = false;
+
+        mic.classList.remove(
+            "listening"
+        );
+
+        status.textContent =
+            "Voice error: " +
+            e.error;
+
+    };
+
+
+
+    recognition.onresult = e => {
+
+        const text =
+            e.results[0][0]
             .transcript
             .trim();
 
-        if(!command){
 
-            status.textContent=
-                "No song detected";
+        if(!text){
+
+            status.textContent =
+                "No command detected";
 
             return;
 
         }
 
-        song.textContent=command;
 
-        status.textContent=
-            "Finding song...";
+        lastCommand =
+            text;
+
+
+        commandBox.textContent =
+            text;
+
+
+        processCommand(
+            text
+        );
+
+    };
+
+
+
+    mic.onclick = () => {
+
+        if(listening)
+            return;
+
 
         try{
 
-            const response=
+            recognition.start();
+
+        }
+        catch(e){
+
+            console.log(e);
+
+        }
+
+    };
+
+}
+
+
+
+// --------------------------------------------------
+// GMAIL KEYWORD DETECTION
+// --------------------------------------------------
+//
+// Gmail requires BOTH:
+//
+// create
+// email
+//
+// Examples:
+//
+// "create email for my boss"
+// "create an email for my manager"
+//
+// --------------------------------------------------
+
+function isGmail(command){
+
+    const hasCreate =
+        /\bcreate\b/i.test(command);
+
+
+    const hasEmail =
+        /\bemail\b/i.test(command);
+
+
+    return (
+        hasCreate &&
+        hasEmail
+    );
+
+}
+
+
+
+// --------------------------------------------------
+// YOUTUBE KEYWORD DETECTION
+// --------------------------------------------------
+//
+// YouTube requires:
+//
+// play
+//
+// OR
+//
+// song
+//
+// Examples:
+//
+// "play believer"
+// "play a song"
+// "song believer"
+//
+// --------------------------------------------------
+
+function isYouTube(command){
+
+    return (
+        /\bplay\b/i.test(command) ||
+        /\bsong\b/i.test(command)
+    );
+
+}
+
+
+
+// --------------------------------------------------
+// MAIN COMMAND PROCESSOR
+// --------------------------------------------------
+
+async function processCommand(command){
+
+
+    // ----------------------------------------------
+    // CHECK COMMAND TYPE
+    // ----------------------------------------------
+
+    const gmail =
+        isGmail(command);
+
+
+    const youtube =
+        isYouTube(command);
+
+
+
+    // ----------------------------------------------
+    // GMAIL COMMAND
+    // ----------------------------------------------
+
+    if(gmail){
+
+        // Prevent duplicate generation
+
+        if(generatingEmail){
+
+            status.textContent =
+                "Email is already being generated...";
+
+            return;
+
+        }
+
+
+        // Prevent the same command from generating
+        // another email
+
+        if(
+            emailGenerated &&
+            command === lastCommand
+        ){
+
+            status.textContent =
+                "Email already generated.";
+
+            return;
+
+        }
+
+
+        generatingEmail = true;
+
+
+        status.textContent =
+            "Generating email...";
+
+
+        try{
+
+
+            const response =
                 await fetch(
-                    "/youtube/play",
+                    "/agent",
                     {
+
                         method:"POST",
 
                         headers:{
@@ -460,78 +902,310 @@ if(!SpeechRecognition){
                                 "application/json"
                         },
 
-                        body:JSON.stringify({
-                            command:command
-                        })
+                        body:
+                            JSON.stringify({
+                                command:command
+                            })
+
                     }
                 );
 
-            const data=
+
+
+            const data =
                 await response.json();
 
-            if(!data.success){
 
-                status.textContent=
+
+            if(
+                !response.ok ||
+                !data.success
+            ){
+
+                throw Error(
                     data.message ||
-                    "Song not found";
-
-                return;
-
-            }
-
-            if(!youtubeTab ||
-               youtubeTab.closed){
-
-                youtubeTab=
-                    window.open(
-                        data.url,
-                        "NovaYouTube"
-                    );
-
-            }else{
-
-                youtubeTab.location.href=
-                    data.url;
-
-                youtubeTab.focus();
+                    "Email request failed"
+                );
 
             }
 
-            status.textContent="Playing";
 
-        }catch(error){
 
-            console.error(error);
+            // Show ONE generated email
 
-            status.textContent=
-                "Server connection failed";
+            showEmail(
+                data
+            );
+
+
+            emailGenerated = true;
+
+
+        }
+        catch(error){
+
+            console.error(
+                error
+            );
+
+
+            status.textContent =
+                error.message ||
+                "Email generation failed";
+
+        }
+        finally{
+
+            generatingEmail = false;
 
         }
 
-    };
 
-    mic.onclick=()=>{
+        return;
 
-        if(listening)
-            return;
+    }
+
+
+
+    // ----------------------------------------------
+    // YOUTUBE COMMAND
+    // ----------------------------------------------
+
+    else if(youtube){
+
+        status.textContent =
+            "Finding song...";
+
 
         try{
 
-            recognition.start();
 
-        }catch(error){
+            const response =
+                await fetch(
+                    "/youtube/play",
+                    {
 
-            console.log(error);
+                        method:"POST",
+
+                        headers:{
+                            "Content-Type":
+                                "application/json"
+                        },
+
+                        body:
+                            JSON.stringify({
+                                command:command
+                            })
+
+                    }
+                );
+
+
+
+            const data =
+                await response.json();
+
+
+
+            if(
+                !response.ok ||
+                !data.success
+            ){
+
+                throw Error(
+                    data.message ||
+                    "YouTube request failed"
+                );
+
+            }
+
+
+
+            playYouTube(
+                data
+            );
+
+
+        }
+        catch(error){
+
+            console.error(
+                error
+            );
+
+
+            status.textContent =
+                error.message ||
+                "YouTube request failed";
 
         }
 
-    };
+
+        return;
+
+    }
+
+
+
+    // ----------------------------------------------
+    // UNKNOWN COMMAND
+    // ----------------------------------------------
+
+    else{
+
+        status.textContent =
+            "Please say 'create email' or 'play song'.";
+
+        return;
+
+    }
 
 }
 
+
+
+// --------------------------------------------------
+// SHOW GENERATED EMAIL
+// --------------------------------------------------
+
+function showEmail(data){
+
+
+    recipient.dataset.email =
+        data.recipient || "";
+
+
+    recipient.textContent =
+        data.recipient
+        ? "To: " + data.recipient
+        : "Recipient not specified";
+
+
+    subject.value =
+        data.subject || "";
+
+
+    body.value =
+        data.body || "";
+
+
+    editor.style.display =
+        "block";
+
+
+    status.textContent =
+        "Email ready. Review or edit it.";
+
+}
+
+
+
+// --------------------------------------------------
+// OPEN GMAIL
+// --------------------------------------------------
+
+$("open").onclick = () => {
+
+
+    const url =
+        "https://mail.google.com/mail/u/0/?" +
+
+        new URLSearchParams({
+
+            view:"cm",
+
+            fs:"1",
+
+            to:
+                recipient.dataset.email || "",
+
+            su:
+                subject.value,
+
+            body:
+                body.value
+
+        });
+
+
+
+    const win =
+        window.open(
+            url,
+            "NovaGmail"
+        );
+
+
+
+    if(!win){
+
+        status.textContent =
+            "Please allow popups for this site.";
+
+    }
+
+};
+
+
+
+// --------------------------------------------------
+// REGENERATE BUTTON
+// --------------------------------------------------
+//
+// No automatic second generation.
+//
+// Clicking this button also does NOT call /agent.
+// --------------------------------------------------
+
+$("regen").onclick = () => {
+
+    status.textContent =
+        "Email already generated. Edit the existing email.";
+
+};
+
+
+
+// --------------------------------------------------
+// YOUTUBE PLAYBACK
+// --------------------------------------------------
+
+function playYouTube(data){
+
+
+    if(
+        !youtubeTab ||
+        youtubeTab.closed
+    ){
+
+        youtubeTab =
+            window.open(
+                data.url,
+                "NovaYouTube"
+            );
+
+    }
+    else{
+
+        youtubeTab.location.href =
+            data.url;
+
+        youtubeTab.focus();
+
+    }
+
+
+    status.textContent =
+        "Playing";
+
+}
+
+
 </script>
 
+
 </body>
+
 </html>'''
 }
 
