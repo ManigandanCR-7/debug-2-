@@ -3,774 +3,558 @@
 
 <head>
 
-  <meta charset="UTF-8">
+    <meta charset="UTF-8">
 
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1.0">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
-  <title>Nova-Code Tester | Next-Gen Code Inspector</title>
+    <title>
+        Nova-Code Tester | Next-Gen Code Inspector
+    </title>
 
-  <link
-    href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;600;700&display=swap"
-    rel="stylesheet"
-  >
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
 
-  <style>
+    <style>
 
-    :root {
-      --bg-dark: #0d1117;
-      --panel-bg: #161b22;
-      --border-color: #30363d;
+        * {
+            box-sizing: border-box;
+        }
 
-      --accent-blue: #58a6ff;
-      --accent-purple: #bc8cff;
-      --accent-orange: #d29922;
+        html {
+            scroll-behavior: smooth;
+        }
 
-      --error-red: #f85149;
-      --error-bg: rgba(248, 81, 73, 0.12);
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background:
+                radial-gradient(
+                    circle at top left,
+                    #172033 0%,
+                    #0d1117 35%,
+                    #080b10 100%
+                );
+            color: #ffffff;
+            font-family: "Inter", sans-serif;
+        }
 
-      --warning-bg: rgba(210, 153, 34, 0.12);
 
-      --success-green: #3fb950;
+        /* =========================
+           HEADER
+        ========================= */
 
-      --text-main: #c9d1d9;
-      --text-muted: #8b949e;
-    }
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
 
+            height: 70px;
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
 
+            padding: 0 28px;
 
-    body {
-      font-family: 'Inter', sans-serif;
-      background-color: var(--bg-dark);
-      color: var(--text-main);
+            background: rgba(13, 17, 23, 0.94);
 
-      min-height: 100vh;
+            border-bottom:
+                1px solid rgba(255, 255, 255, 0.08);
 
-      display: flex;
-      flex-direction: column;
-    }
+            backdrop-filter: blur(16px);
+        }
 
 
-    /* ========================================================
-       HEADER
-       ======================================================== */
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
 
-    header {
-      padding: 1.25rem 2rem;
 
-      border-bottom: 1px solid var(--border-color);
+        .logo {
+            width: 38px;
+            height: 38px;
 
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+            display: grid;
+            place-items: center;
 
-      background: rgba(22, 27, 34, 0.8);
+            border-radius: 10px;
 
-      backdrop-filter: blur(10px);
-    }
+            background: #ffffff;
+            color: #0d1117;
 
+            font-weight: 800;
+            font-size: 20px;
 
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-    }
+            cursor: pointer;
 
+            box-shadow:
+                0 0 25px rgba(255, 255, 255, 0.08);
+        }
 
-    .brand-logo {
-      width: 34px;
-      height: 34px;
 
-      background:
-        linear-gradient(
-          135deg,
-          var(--accent-blue),
-          var(--accent-purple)
-        );
+        .brand-text h1 {
+            margin: 0;
 
-      border-radius: 8px;
+            font-size: 17px;
+            font-weight: 700;
+        }
 
-      display: flex;
-      align-items: center;
-      justify-content: center;
 
-      font-weight: 700;
-      color: #fff;
-      font-size: 1.1rem;
+        .brand-text p {
+            margin: 3px 0 0;
 
-      cursor: pointer;
-      user-select: none;
+            color: #7d8590;
 
-      transition:
-        transform 0.2s ease,
-        box-shadow 0.2s ease;
-    }
+            font-size: 11px;
+        }
 
 
-    .brand-logo:hover {
-      transform: scale(1.08);
+        .header-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
 
-      box-shadow:
-        0 0 12px rgba(88, 166, 255, 0.5);
-    }
+            color: #8b949e;
 
+            font-size: 12px;
+        }
 
-    .brand-logo:active {
-      transform: scale(0.95);
-    }
 
+        .status-dot {
+            width: 8px;
+            height: 8px;
 
-    .brand-title {
-      font-size: 1.35rem;
+            border-radius: 50%;
 
-      font-weight: 700;
+            background: #3fb950;
 
-      letter-spacing: -0.5px;
+            box-shadow:
+                0 0 10px rgba(63, 185, 80, 0.6);
+        }
 
-      background:
-        linear-gradient(
-          90deg,
-          #fff,
-          var(--text-muted)
-        );
 
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
+        /* =========================
+           MAIN CONTAINER
+        ========================= */
 
+        .container {
+            width: min(1500px, 96%);
 
-    /* ========================================================
-       MAIN CONTAINER
-       ======================================================== */
+            margin: 0 auto;
 
-    .container {
-      max-width: 1400px;
+            padding: 30px 0 60px;
+        }
 
-      width: 100%;
 
-      margin: 2rem auto;
+        .intro {
+            margin-bottom: 28px;
+        }
 
-      padding: 0 1.5rem;
 
-      display: grid;
+        .intro h2 {
+            margin: 0 0 8px;
 
-      grid-template-columns:
-        minmax(0, 1fr)
-        380px;
+            font-size: 26px;
+            font-weight: 700;
+        }
 
-      gap: 1.5rem;
 
-      flex-grow: 1;
-    }
+        .intro p {
+            margin: 0;
 
+            color: #8b949e;
 
-    /* ========================================================
-       EDITORS GRID
-       ======================================================== */
+            font-size: 14px;
+            line-height: 1.6;
+        }
 
-    .editors-grid {
-      display: grid;
 
-      grid-template-columns:
-        repeat(2, minmax(0, 1fr));
+        .info-box {
+            margin-top: 18px;
 
-      gap: 1.5rem;
+            padding: 14px 16px;
 
-      min-width: 0;
-    }
+            border: 1px solid rgba(255, 255, 255, 0.08);
 
+            border-radius: 10px;
 
-    /* ========================================================
-       EDITOR CARD
-       ======================================================== */
+            background:
+                rgba(255, 255, 255, 0.025);
 
-    .editor-card {
-      background: var(--panel-bg);
+            color: #8b949e;
 
-      border: 1px solid var(--border-color);
+            font-size: 12px;
+            line-height: 1.6;
+        }
 
-      border-radius: 12px;
 
-      display: flex;
-      flex-direction: column;
+        .info-box strong {
+            color: #ffffff;
+        }
 
-      overflow: hidden;
 
-      box-shadow:
-        0 10px 30px rgba(0, 0, 0, 0.5);
+        /* =========================
+           EDITOR GRID
+        ========================= */
 
-      min-width: 0;
-      min-height: 0;
-    }
+        .editor-grid {
+            display: grid;
 
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
 
-    /* ========================================================
-       EDITOR HEADER
-       ======================================================== */
+            gap: 20px;
+        }
 
-    .editor-header {
-      padding: 0.75rem 1.25rem;
 
-      background: #0d1117;
+        .editor-card {
+            min-width: 0;
 
-      border-bottom:
-        1px solid var(--border-color);
+            overflow: hidden;
 
-      display: flex;
+            border:
+                1px solid rgba(255, 255, 255, 0.09);
 
-      justify-content: space-between;
+            border-radius: 14px;
 
-      align-items: center;
-    }
+            background:
+                rgba(13, 17, 23, 0.88);
 
+            box-shadow:
+                0 20px 50px rgba(0, 0, 0, 0.25);
+        }
 
-    .editor-title {
-      font-size: 0.85rem;
 
-      color: var(--text-muted);
+        .editor-card.full-width {
+            grid-column: 1 / -1;
+        }
 
-      text-transform: uppercase;
 
-      letter-spacing: 1px;
+        /* =========================
+           EDITOR HEADER
+        ========================= */
 
-      font-weight: 600;
-    }
+        .editor-header {
+            min-height: 62px;
 
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
 
-    .file-name {
-      color: var(--accent-blue);
+            gap: 15px;
 
-      font-size: 0.72rem;
+            padding: 12px 15px;
 
-      font-family: 'Fira Code', monospace;
-    }
+            border-bottom:
+                1px solid rgba(255, 255, 255, 0.07);
 
+            background:
+                rgba(255, 255, 255, 0.025);
+        }
 
-    /* ========================================================
-       EDITOR WRAPPER
-       ======================================================== */
 
-    .editor-wrapper {
-      position: relative;
+        .file-info {
+            min-width: 0;
+        }
 
-      flex-grow: 1;
 
-      display: flex;
+        .editor-number {
+            margin-bottom: 4px;
 
-      font-family: 'Fira Code', monospace;
+            color: #6e7681;
 
-      font-size: 14px;
+            font-size: 10px;
+            font-weight: 600;
 
-      line-height: 1.6;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
 
-      background: #0d1117;
 
-      overflow: hidden;
+        .file-name {
+            overflow: hidden;
 
-      min-height: 360px;
+            color: #ffffff;
 
-      height: 360px;
-    }
+            font-family: "Fira Code", monospace;
+            font-size: 12px;
 
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
 
-    /* ========================================================
-       LINE NUMBERS
-       ======================================================== */
 
-    .line-numbers {
-      width: 55px;
+        .editor-actions {
+            display: flex;
+            gap: 8px;
 
-      padding: 1rem 0;
+            flex-shrink: 0;
+        }
 
-      background: #161b22;
 
-      border-right:
-        1px solid var(--border-color);
+        button {
+            font-family: "Inter", sans-serif;
+        }
 
-      color: var(--text-muted);
 
-      text-align: right;
+        .action-btn {
+            padding: 7px 12px;
 
-      user-select: none;
+            border: 1px solid rgba(255, 255, 255, 0.1);
 
-      overflow: hidden;
-    }
+            border-radius: 7px;
 
+            background: #161b22;
 
-    .line-number {
-      padding-right: 12px;
+            color: #c9d1d9;
 
-      height: 22.4px;
+            font-size: 11px;
+            font-weight: 600;
 
-      transition:
-        color 0.2s,
-        background 0.2s;
-    }
+            cursor: pointer;
 
+            transition:
+                0.2s ease;
+        }
 
-    .line-number.has-error {
-      color: var(--error-red);
 
-      font-weight: bold;
+        .action-btn:hover {
+            border-color:
+                rgba(255, 255, 255, 0.25);
 
-      background: var(--error-bg);
+            background: #21262d;
 
-      position: relative;
-    }
+            color: #ffffff;
 
+            transform: translateY(-1px);
+        }
 
-    .line-number.has-error::before {
-      content: "●";
 
-      position: absolute;
+        .run-btn {
+            background: #161b22;
+        }
 
-      left: 8px;
 
-      font-size: 8px;
-    }
+        .fix-btn {
+            background: #ffffff;
+            color: #0d1117;
 
+            border-color: #ffffff;
+        }
 
-    /* ========================================================
-       TEXTAREA
-       ======================================================== */
 
-    textarea {
-      flex-grow: 1;
+        .fix-btn:hover {
+            background: #d8dee4;
 
-      background: transparent;
+            color: #0d1117;
+        }
 
-      border: none;
 
-      outline: none;
+        /* =========================
+           EDITOR AREA
+        ========================= */
 
-      color: var(--text-main);
+        .editor-wrapper {
+            position: relative;
 
-      padding: 1rem;
+            display: flex;
 
-      font-family: inherit;
+            min-height: 330px;
 
-      font-size: inherit;
+            background: #0d1117;
+        }
 
-      line-height: 1.6;
 
-      resize: none;
+        .line-numbers {
+            width: 52px;
 
-      white-space: pre;
+            flex-shrink: 0;
 
-      overflow-y: scroll;
+            padding:
+                16px 10px 16px 0;
 
-      overflow-x: auto;
+            overflow: hidden;
 
-      tab-size: 4;
-    }
+            border-right:
+                1px solid rgba(255, 255, 255, 0.06);
 
+            color: #484f58;
 
-    /* ========================================================
-       EDITOR ACTIONS
-       ======================================================== */
+            font-family: "Fira Code", monospace;
+            font-size: 12px;
 
-    .editor-actions {
-      display: flex;
+            line-height: 1.65;
 
-      gap: 0.65rem;
+            text-align: right;
 
-      padding: 0.75rem 1rem;
+            user-select: none;
 
-      background: #0d1117;
+            white-space: pre;
+        }
 
-      border-top:
-        1px solid var(--border-color);
-    }
 
+        .code-editor {
+            width: 100%;
+            min-height: 330px;
 
-    .btn-editor {
-      flex: 1;
+            padding: 16px;
 
-      border:
-        1px solid var(--border-color);
+            resize: vertical;
 
-      border-radius: 7px;
+            outline: none;
+            border: 0;
 
-      padding: 0.7rem 0.75rem;
+            background: transparent;
 
-      font-weight: 600;
+            color: #c9d1d9;
 
-      cursor: pointer;
+            font-family: "Fira Code", monospace;
+            font-size: 12px;
 
-      color: white;
+            line-height: 1.65;
 
-      transition:
-        all 0.2s ease;
-    }
+            tab-size: 4;
 
+            white-space: pre;
 
-    .btn-editor:hover {
-      transform: translateY(-1px);
-    }
+            overflow: auto;
+        }
 
 
-    .btn-editor:active {
-      transform: translateY(0);
-    }
+        .code-editor::placeholder {
+            color: #484f58;
+        }
 
 
-    .btn-inspect {
-      background:
-        linear-gradient(
-          135deg,
-          var(--accent-blue),
-          #2563eb
-        );
-    }
+        .code-editor:focus {
+            color: #ffffff;
+        }
 
 
-    .btn-fix {
-      background:
-        linear-gradient(
-          135deg,
-          var(--success-green),
-          #238636
-        );
-    }
+        /* =========================
+           RESULT PANEL
+        ========================= */
 
+        .result {
+            min-height: 52px;
 
-    /* ========================================================
-       EDITOR STATUS
-       ======================================================== */
+            padding: 12px 15px;
 
-    .editor-status {
-      padding: 0.6rem 1rem;
+            border-top:
+                1px solid rgba(255, 255, 255, 0.06);
 
-      font-size: 0.75rem;
+            background:
+                rgba(255, 255, 255, 0.018);
 
-      color: var(--text-muted);
+            font-size: 12px;
 
-      border-top:
-        1px solid var(--border-color);
+            line-height: 1.5;
+        }
 
-      min-height: 34px;
-    }
 
+        .result.waiting {
+            color: #6e7681;
+        }
 
-    /* ========================================================
-       ACTION PANEL
-       ======================================================== */
 
-    .action-panel {
-      display: flex;
+        .result.pass {
+            color: #3fb950;
+        }
 
-      flex-direction: column;
 
-      gap: 1.5rem;
-    }
+        .result.fail {
+            color: #f85149;
+        }
 
 
-    /* ========================================================
-       RESULTS CARD
-       ======================================================== */
+        .result.fix {
+            color: #ffffff;
+        }
 
-    .results-card {
-      background: var(--panel-bg);
 
-      border:
-        1px solid var(--border-color);
+        .result-title {
+            margin-bottom: 5px;
 
-      border-radius: 12px;
+            font-weight: 700;
+        }
 
-      padding: 1.25rem;
 
-      flex-grow: 1;
+        .result-detail {
+            color: #8b949e;
+        }
 
-      overflow-y: auto;
 
-      max-height: none;
+        /* =========================
+           FOOTER
+        ========================= */
 
-      min-height: 600px;
-    }
+        footer {
+            margin-top: 30px;
 
+            color: #484f58;
 
-    /* ========================================================
-       STATUS BADGES
-       ======================================================== */
+            font-size: 11px;
 
-    .status-badge {
-      padding: 0.75rem 1rem;
+            text-align: center;
+        }
 
-      border-radius: 8px;
 
-      font-weight: 600;
+        /* =========================
+           RESPONSIVE
+        ========================= */
 
-      font-size: 0.9rem;
+        @media (max-width: 900px) {
 
-      margin-bottom: 1rem;
+            .editor-grid {
+                grid-template-columns: 1fr;
+            }
 
-      display: flex;
+            .editor-card.full-width {
+                grid-column: auto;
+            }
 
-      align-items: center;
+            .header-status {
+                display: none;
+            }
 
-      gap: 0.5rem;
-    }
+        }
 
 
-    .status-pass {
-      background:
-        rgba(63, 185, 80, 0.15);
+        @media (max-width: 600px) {
 
-      color: var(--success-green);
+            header {
+                padding: 0 15px;
+            }
 
-      border:
-        1px solid rgba(63, 185, 80, 0.3);
-    }
+            .container {
+                width: 94%;
+                padding-top: 20px;
+            }
 
+            .editor-header {
+                align-items: flex-start;
+                flex-direction: column;
+            }
 
-    .status-fail {
-      background: var(--error-bg);
+            .editor-actions {
+                width: 100%;
+            }
 
-      color: var(--error-red);
+            .action-btn {
+                flex: 1;
+            }
 
-      border:
-        1px solid rgba(248, 81, 73, 0.3);
-    }
+            .intro h2 {
+                font-size: 21px;
+            }
 
+        }
 
-    /* ========================================================
-       ISSUE DISPLAY
-       ======================================================== */
-
-    .issue-item {
-      background: #0d1117;
-
-      border:
-        1px solid var(--border-color);
-
-      border-left:
-        3px solid var(--error-red);
-
-      border-radius: 6px;
-
-      padding: 1rem;
-
-      margin-bottom: 0.85rem;
-
-      font-family: 'Fira Code', monospace;
-
-      font-size: 0.82rem;
-    }
-
-
-    .issue-header {
-      display: flex;
-
-      justify-content: space-between;
-
-      align-items: center;
-
-      margin-bottom: 0.75rem;
-    }
-
-
-    .line-badge {
-      background: #21262d;
-
-      color: var(--accent-blue);
-
-      padding:
-        0.2rem 0.5rem;
-
-      border-radius: 4px;
-
-      font-weight: 600;
-
-      font-size: 0.75rem;
-
-      border:
-        1px solid var(--border-color);
-    }
-
-
-    .sub-issue {
-      margin-bottom: 0.75rem;
-
-      padding: 0.6rem;
-
-      border-radius: 6px;
-
-      background: #161b22;
-    }
-
-
-    .sub-issue.indent-issue {
-      border-left:
-        3px solid var(--accent-orange);
-    }
-
-
-    .sub-issue.char-issue {
-      border-left:
-        3px solid var(--accent-purple);
-    }
-
-
-    .badge {
-      display: inline-block;
-
-      font-size: 0.7rem;
-
-      font-weight: 700;
-
-      text-transform: uppercase;
-
-      padding:
-        0.15rem 0.4rem;
-
-      border-radius: 3px;
-
-      margin-bottom: 0.4rem;
-    }
-
-
-    .badge-indent {
-      background: var(--warning-bg);
-
-      color: var(--accent-orange);
-    }
-
-
-    .badge-char {
-      background:
-        rgba(188, 140, 255, 0.15);
-
-      color: var(--accent-purple);
-    }
-
-
-    .issue-desc {
-      color: var(--text-main);
-
-      font-size: 0.8rem;
-    }
-
-
-    .char-list {
-      list-style: none;
-
-      padding-left: 0;
-    }
-
-
-    .char-list li {
-      position: relative;
-
-      padding-left: 1rem;
-
-      margin-top: 0.3rem;
-
-      color: #e6edf3;
-
-      font-size: 0.78rem;
-    }
-
-
-    .char-list li::before {
-      content: "›";
-
-      position: absolute;
-
-      left: 0;
-
-      color: var(--accent-purple);
-
-      font-weight: bold;
-    }
-
-
-    .diff-label {
-      color: var(--text-muted);
-
-      font-size: 0.75rem;
-
-      margin-top: 0.5rem;
-
-      display: block;
-    }
-
-
-    .code-diff {
-      background: #161b22;
-
-      padding:
-        0.4rem 0.6rem;
-
-      border-radius: 4px;
-
-      margin-top: 0.2rem;
-
-      word-break: break-all;
-
-      white-space: pre-wrap;
-
-      font-size: 0.8rem;
-    }
-
-
-    .diff-expected {
-      color: var(--success-green);
-
-      border:
-        1px solid rgba(63, 185, 80, 0.2);
-    }
-
-
-    .diff-found {
-      color: var(--error-red);
-
-      border:
-        1px solid rgba(248, 81, 73, 0.2);
-    }
-
-
-    /* ========================================================
-       RESPONSIVE
-       ======================================================== */
-
-    @media (max-width: 1100px) {
-
-      .container {
-        grid-template-columns: 1fr;
-      }
-
-      .editors-grid {
-        grid-template-columns: 1fr;
-      }
-
-    }
-
-
-    @media (max-width: 600px) {
-
-      header {
-        padding:
-          1rem 1.25rem;
-      }
-
-      .container {
-        padding:
-          0 1rem;
-      }
-
-      .editor-wrapper {
-        height: 320px;
-      }
-
-    }
-
-  </style>
+    </style>
 
 </head>
 
@@ -778,1463 +562,1717 @@
 <body>
 
 
-  <!-- ======================================================
-       HEADER
-       ====================================================== -->
+<!-- =========================
+     HEADER
+========================= -->
 
-  <header>
+<header>
 
     <div class="brand">
 
-      <div
-        class="brand-logo"
-        onclick="loadTemplateCode()"
-        title="Load all five default codes"
-      >
-        N
-      </div>
-
-      <div class="brand-title">
-        Nova Debug
-      </div>
-
-    </div>
-
-  </header>
-
-
-  <!-- ======================================================
-       MAIN CONTAINER
-       ====================================================== -->
-
-  <div class="container">
-
-
-    <!-- ====================================================
-         FIVE CODE EDITORS
-         ==================================================== -->
-
-    <div class="editors-grid">
-
-
-      <!-- ==================================================
-           EDITOR 1
-           gmail/__init__.py
-           ================================================== -->
-
-      <!-- ==================================================
-           EDITOR 2
-            gmail/gmail_gen.py
-
-           ================================================== -->
-
-  
-      <!-- ==================================================
-           EDITOR 3
-           combined-agent/app/gmail//gmail_write.py
-           ================================================== -->
-
-      
-
-      <!-- ==================================================
-           EDITOR 4
-           wsgi.py
-           ================================================== -->
-
-      <div class="editor-card">
-
-        <div class="editor-header">
-
-          <span class="editor-title">
-            Code Editor 4
-          </span>
-
-          <span class="file-name">
-            wsgi.py
-          </span>
-
-        </div>
-
-
-        <div class="editor-wrapper">
-
-          <div
-            class="line-numbers"
-            id="lineNumbers4"
-          >
-            <div class="line-number">1</div>
-          </div>
-
-          <textarea
-            id="codeEditor4"
-            placeholder="Paste or write your Python code here..."
-            spellcheck="false"
-          ></textarea>
-
-        </div>
-
-
-        <div class="editor-actions">
-
-          <button
-            class="btn-editor btn-inspect"
-            onclick="runDebugger(4)"
-          >
-            ▶ Run
-          </button>
-
-          <button
-            class="btn-editor btn-fix"
-            onclick="fixCode(4)"
-          >
-            ✓ Fix
-          </button>
-
-        </div>
-
-
         <div
-          class="editor-status"
-          id="editorStatus4"
-        >
-          Ready
+            class="logo"
+            onclick="loadTemplateCode()">
+            N
         </div>
 
-      </div>
+        <div class="brand-text">
 
+            <h1>
+                Nova-Code Tester
+            </h1>
 
-
-      <!-- ==================================================
-           EDITOR 5
-           templates/index.html
-           ================================================== -->
-
-      <div class="editor-card">
-
-        <div class="editor-header">
-
-          <span class="editor-title">
-            Code Editor 5
-          </span>
-
-          <span class="file-name">
-            templates/index.html
-          </span>
+            <p>
+                Next-Gen Code Inspector
+            </p>
 
         </div>
-
-
-        <div class="editor-wrapper">
-
-          <div
-            class="line-numbers"
-            id="lineNumbers5"
-          >
-            <div class="line-number">1</div>
-          </div>
-
-          <textarea
-            id="codeEditor5"
-            placeholder="Paste or write your HTML code here..."
-            spellcheck="false"
-          ></textarea>
-
-        </div>
-
-
-        <div class="editor-actions">
-
-          <button
-            class="btn-editor btn-inspect"
-            onclick="runDebugger(5)"
-          >
-            ▶ Run
-          </button>
-
-          <button
-            class="btn-editor btn-fix"
-            onclick="fixCode(5)"
-          >
-            ✓ Fix
-          </button>
-
-        </div>
-
-
-        <div
-          class="editor-status"
-          id="editorStatus5"
-        >
-          Ready
-        </div>
-
-      </div>
-
 
     </div>
 
 
-    <!-- ====================================================
-         RESULTS PANEL
-         ==================================================== -->
+    <div class="header-status">
 
-    <div class="action-panel">
+        <span class="status-dot"></span>
 
-      <div class="results-card">
-
-        <div id="resultsContainer">
-
-          <p
-            style="
-              color: var(--text-muted);
-              font-size: 0.9rem;
-              text-align: center;
-              margin-top: 2rem;
-            "
-          >
-            Run any editor to inspect it, or click the
-            "N" logo to load the five default registered
-            codes.
-          </p>
-
-        </div>
-
-      </div>
+        Five Editor System
 
     </div>
 
+</header>
 
-  </div>
 
 
-  <!-- ======================================================
-       JAVASCRIPT
-       ====================================================== -->
+<!-- =========================
+     MAIN
+========================= -->
 
-  <script>
+<main class="container">
 
 
-    /* ======================================================
-       EDITOR CONFIGURATION
-       ====================================================== */
+    <section class="intro">
 
-    const editorCount = 5;
+        <h2>
+            Code Debugging Workspace
+        </h2>
 
-    const editors = [];
-
-    const lineNumbers = [];
-
-    const editorStatuses = [];
-
-
-    for (
-      let i = 1;
-      i <= editorCount;
-      i++
-    ) {
-
-      editors.push(
-        document.getElementById(
-          `codeEditor${i}`
-        )
-      );
-
-      lineNumbers.push(
-        document.getElementById(
-          `lineNumbers${i}`
-        )
-      );
-
-      editorStatuses.push(
-        document.getElementById(
-          `editorStatus${i}`
-        )
-      );
-
-    }
-
-
-    const resultsContainer =
-      document.getElementById(
-        "resultsContainer"
-      );
-
-
-    /* ======================================================
-       EDITOR → BACKEND ID
-       ====================================================== */
-
-    function getEditorId(editorIndex) {
-
-      return `editor${editorIndex}`;
-
-    }
-
-
-    /* ======================================================
-       LINE NUMBERS
-       ====================================================== */
-
-    function updateLineNumbers(
-      editorIndex,
-      errorLines = []
-    ) {
-
-      const editor =
-        editors[editorIndex - 1];
-
-      const numbers =
-        lineNumbers[editorIndex - 1];
-
-
-      const lines =
-        editor.value.split("\n");
-
-
-      const lineCount =
-        Math.max(
-          lines.length,
-          1
-        );
-
-
-      let numbersHtml = "";
-
-
-      for (
-        let i = 1;
-        i <= lineCount;
-        i++
-      ) {
-
-        const isError =
-          errorLines.includes(i);
-
-
-        numbersHtml +=
-          `<div class="line-number ${
-            isError
-              ? "has-error"
-              : ""
-          }">${i}</div>`;
-
-      }
-
-
-      numbers.innerHTML =
-        numbersHtml;
-
-    }
-
-
-    /* ======================================================
-       STATUS
-       ====================================================== */
-
-    function setEditorStatus(
-      editorIndex,
-      message
-    ) {
-
-      editorStatuses[
-        editorIndex - 1
-      ].textContent = message;
-
-    }
-
-
-    /* ======================================================
-       TAB SUPPORT
-       ====================================================== */
-
-    editors.forEach(
-      (editor, zeroIndex) => {
-
-        const editorIndex =
-          zeroIndex + 1;
-
-
-        editor.addEventListener(
-          "keydown",
-          (e) => {
-
-            if (e.key === "Tab") {
-
-              e.preventDefault();
-
-
-              const start =
-                editor.selectionStart;
-
-              const end =
-                editor.selectionEnd;
-
-
-              editor.value =
-                editor.value.substring(
-                  0,
-                  start
-                )
-                +
-                "    "
-                +
-                editor.value.substring(
-                  end
-                );
-
-
-              editor.selectionStart =
-                editor.selectionEnd =
-                  start + 4;
-
-
-              updateLineNumbers(
-                editorIndex
-              );
-
-            }
-
-          }
-        );
-
-
-        /* ==================================================
-           INPUT EVENT
-           ================================================== */
-
-        editor.addEventListener(
-          "input",
-          () => {
-
-            updateLineNumbers(
-              editorIndex
-            );
-
-            setEditorStatus(
-              editorIndex,
-              "Modified"
-            );
-
-          }
-        );
-
-
-        /* ==================================================
-           SCROLL SYNCHRONIZATION
-           ================================================== */
-
-        editor.addEventListener(
-          "scroll",
-          () => {
-
-            lineNumbers[
-              zeroIndex
-            ].scrollTop =
-              editor.scrollTop;
-
-          }
-        );
-
-
-        updateLineNumbers(
-          editorIndex
-        );
-
-      }
-    );
-
-
-    /* ======================================================
-       LOAD ALL FIVE DEFAULT CODES
-       ====================================================== */
-
-    async function loadTemplateCode() {
-
-      try {
-
-        resultsContainer.innerHTML = `
-          <p
-            style="
-              color: var(--text-muted);
-              text-align: center;
-            "
-          >
-            Loading all five default codes...
-          </p>
-        `;
-
-
-        const response =
-          await fetch(
-            "/template"
-          );
-
-
-        const data =
-          await response.json();
-
-
-        if (
-          !data.success ||
-          !data.templates
-        ) {
-
-          throw new Error(
-            "Template data unavailable"
-          );
-
-        }
-
-
-        /* ================================================
-           Load each editor's OWN code
-           ================================================ */
-
-        for (
-          let i = 1;
-          i <= editorCount;
-          i++
-        ) {
-
-          const editorId =
-            getEditorId(i);
-
-
-          const code =
-            data.templates[
-              editorId
-            ];
-
-
-          if (
-            code !== undefined
-          ) {
-
-            editors[i - 1].value =
-              code;
-
-
-            updateLineNumbers(
-              i
-            );
-
-
-            setEditorStatus(
-              i,
-              "Default code loaded"
-            );
-
-          }
-
-        }
-
-
-        resultsContainer.innerHTML = `
-
-          <div class="status-badge status-pass">
-
-            ✨ All 5 default codes loaded
-
-          </div>
-
-
-          <p
-            style="
-              color: var(--text-muted);
-              font-size: 0.85rem;
-              line-height: 1.6;
-            "
-          >
-
-            Each editor now contains its own
-            registered/default code.
-
-          </p>
-
-
-          <div
-            style="
-              margin-top: 1rem;
-              font-family: 'Fira Code', monospace;
-              font-size: 0.78rem;
-              color: var(--text-muted);
-              line-height: 1.8;
-            "
-          >
-
-            <div>Editor 1 → app/__init__.py</div>
-
-            <div>Editor 2 → app/youtube/__init__.py</div>
-
-            <div>Editor 3 → app/youtube/player.py</div>
-
-            <div>Editor 4 → wsgi.py</div>
-
-            <div>Editor 5 → templates/index.html</div>
-
-          </div>
-
-        `;
-
-
-      } catch (err) {
-
-        console.error(
-          "Template loading error:",
-          err
-        );
-
-
-        resultsContainer.innerHTML = `
-
-          <div class="status-badge status-fail">
-
-            ❌ Failed to load default codes
-
-          </div>
-
-          <p
-            style="
-              color: var(--text-muted);
-              font-size: 0.85rem;
-            "
-          >
-
-            Make sure the Flask backend is
-            running and the /template endpoint
-            is available.
-
-          </p>
-
-        `;
-
-      }
-
-    }
-
-
-    /* ======================================================
-       RUN / INSPECT EDITOR
-       ====================================================== */
-
-    async function runDebugger(
-      editorIndex
-    ) {
-
-      const editor =
-        editors[editorIndex - 1];
-
-
-      const inputCode =
-        editor.value;
-
-
-      const editorId =
-        getEditorId(
-          editorIndex
-        );
-
-
-      setEditorStatus(
-        editorIndex,
-        "Analyzing..."
-      );
-
-
-      resultsContainer.innerHTML = `
-
-        <p
-          style="
-            color: var(--text-muted);
-            text-align: center;
-          "
-        >
-
-          Analyzing Code Editor
-          ${editorIndex}...
-
+        <p>
+            Paste your code into the correct editor and use
+            <strong>Run</strong> to inspect it or
+            <strong>Fix</strong> to replace it with the registered default code.
         </p>
 
-      `;
+
+        <div class="info-box">
+
+            <strong>Important:</strong>
+
+            Each editor has its own independent default code.
+            Clicking <strong>Fix</strong> replaces the
+            entire content of that editor only.
+
+        </div>
+
+    </section>
 
 
-      try {
 
-        const response =
-          await fetch(
-            "/compare",
-            {
-              method: "POST",
-
-              headers: {
-                "Content-Type":
-                  "application/json"
-              },
-
-              body: JSON.stringify({
-
-                editor_id:
-                  editorId,
-
-                input_code:
-                  inputCode
-
-              })
-
-            }
-          );
+    <section class="editor-grid">
 
 
-        const data =
-          await response.json();
+        <!-- =========================================
+             EDITOR 1
+             gmail/__init__.py
+        ========================================== -->
+
+        <article class="editor-card">
+
+            <div class="editor-header">
+
+                <div class="file-info">
+
+                    <div class="editor-number">
+                        Editor 01
+                    </div>
+
+                    <div class="file-name">
+                        gmail/__init__.py
+                    </div>
+
+                </div>
 
 
-        /* ================================================
-           MATCH
-           ================================================ */
+                <div class="editor-actions">
 
-        if (data.match) {
+                    <button
+                        class="action-btn run-btn"
+                        onclick="runDebugger(1)">
+                        Run
+                    </button>
 
-          updateLineNumbers(
-            editorIndex
-          );
+                    <button
+                        class="action-btn fix-btn"
+                        onclick="fixCode(1)">
+                        Fix
+                    </button>
 
-
-          setEditorStatus(
-            editorIndex,
-            "Inspection passed"
-          );
-
-
-          resultsContainer.innerHTML = `
-
-            <div class="status-badge status-pass">
-
-              ✅ Editor ${editorIndex}:
-              Inspection Passed —
-              0 Errors Found
+                </div>
 
             </div>
 
-            <p
-              style="
-                color: var(--text-muted);
-                font-size: 0.85rem;
-              "
-            >
 
-              The code matches the registered
-              default code for this editor.
-
-            </p>
-
-          `;
-
-
-          return;
-
-        }
-
-
-        /* ================================================
-           ERRORS
-           ================================================ */
-
-        const errors =
-          Array.isArray(data.errors)
-            ? data.errors
-            : [];
-
-
-        const errorLineNumbers =
-          errors
-            .map(
-              err =>
-                err.line_no
-            )
-            .filter(Boolean);
-
-
-        updateLineNumbers(
-          editorIndex,
-          errorLineNumbers
-        );
-
-
-        setEditorStatus(
-          editorIndex,
-          `${errors.length} issue(s) detected`
-        );
-
-
-        let html = `
-
-          <div class="status-badge status-fail">
-
-            ⚠️ Editor ${editorIndex}:
-            ${errors.length}
-            Issue(s) Detected
-
-          </div>
-
-        `;
-
-
-        /* ==============================================
-           NO ERROR DETAILS
-           ============================================== */
-
-        if (
-          errors.length === 0
-        ) {
-
-          html += `
-
-            <p
-              style="
-                color: var(--text-muted);
-                font-size: 0.85rem;
-              "
-            >
-
-              The submitted code does not match
-              the registered code.
-
-            </p>
-
-          `;
-
-        }
-
-
-        /* ==============================================
-           RENDER EACH ERROR
-           ============================================== */
-
-        errors.forEach(
-          (err, idx) => {
-
-            const lineBadgeText =
-              err.line_no
-                ? `LINE ${err.line_no}`
-                : "GENERAL";
-
-
-            html += `
-
-              <div class="issue-item">
-
-                <div class="issue-header">
-
-                  <span
-                    style="
-                      color: var(--error-red);
-                      font-weight: 700;
-                    "
-                  >
-                    ISSUE #${idx + 1}
-                  </span>
-
-                  <span class="line-badge">
-
-                    ${lineBadgeText}
-
-                  </span>
-
-                </div>
-
-            `;
-
-
-            /* ==========================================
-               GENERAL ERROR
-               ========================================== */
-
-            if (err.type) {
-
-              html += `
+            <div class="editor-wrapper">
 
                 <div
-                  class="issue-desc"
-                  style="
-                    margin-bottom: 0.5rem;
-                    color: var(--error-red);
-                  "
-                >
+                    id="lineNumbers1"
+                    class="line-numbers">
+                    1
+                </div>
 
-                  ${escapeHtml(
-                    err.message
-                  )}
+                <textarea
+                    id="editor1"
+                    class="code-editor"
+                    spellcheck="false"
+                    placeholder="Paste gmail/__init__.py code here..."
+                    oninput="handleInput(1)"
+                    onscroll="syncScroll(1)"></textarea>
+
+            </div>
+
+
+            <div
+                id="result1"
+                class="result waiting">
+
+                <div class="result-title">
+                    Ready
+                </div>
+
+                <div class="result-detail">
+                    Paste code and click Run or Fix.
 
                 </div>
 
-              `;
+            </div>
+
+        </article>
 
 
-              if (
-                err.expected
-              ) {
 
-                html += `
+        <!-- =========================================
+             EDITOR 2
+             gmail/gmail_gen.py
+        ========================================== -->
 
-                  <span class="diff-label">
-                    Expected:
-                  </span>
+        <article class="editor-card">
 
-                  <div
-                    class="
-                      code-diff
-                      diff-expected
-                    "
-                  >
+            <div class="editor-header">
 
-                    ${escapeHtml(
-                      err.expected
-                    )}
+                <div class="file-info">
 
-                  </div>
+                    <div class="editor-number">
+                        Editor 02
+                    </div>
 
-                `;
+                    <div class="file-name">
+                        gmail/gmail_gen.py
+                    </div>
 
-              }
+                </div>
 
 
-              if (
-                err.found
-              ) {
+                <div class="editor-actions">
 
-                html += `
+                    <button
+                        class="action-btn run-btn"
+                        onclick="runDebugger(2)">
+                        Run
+                    </button>
 
-                  <span class="diff-label">
-                    Found:
-                  </span>
+                    <button
+                        class="action-btn fix-btn"
+                        onclick="fixCode(2)">
+                        Fix
+                    </button>
 
-                  <div
-                    class="
-                      code-diff
-                      diff-found
-                    "
-                  >
+                </div>
 
-                    ${escapeHtml(
-                      err.found
-                    )}
+            </div>
 
-                  </div>
 
-                `;
+            <div class="editor-wrapper">
 
-              }
+                <div
+                    id="lineNumbers2"
+                    class="line-numbers">
+                    1
+                </div>
 
+                <textarea
+                    id="editor2"
+                    class="code-editor"
+                    spellcheck="false"
+                    placeholder="Paste gmail/gmail_gen.py code here..."
+                    oninput="handleInput(2)"
+                    onscroll="syncScroll(2)"></textarea>
+
+            </div>
+
+
+            <div
+                id="result2"
+                class="result waiting">
+
+                <div class="result-title">
+                    Ready
+                </div>
+
+                <div class="result-detail">
+                    Paste code and click Run or Fix.
+
+                </div>
+
+            </div>
+
+        </article>
+
+
+
+        <!-- =========================================
+             EDITOR 3
+             combined-agent/app/gmail/gmail_write.py
+        ========================================== -->
+
+        <article class="editor-card">
+
+            <div class="editor-header">
+
+                <div class="file-info">
+
+                    <div class="editor-number">
+                        Editor 03
+                    </div>
+
+                    <div class="file-name">
+                        combined-agent/app/gmail/gmail_write.py
+                    </div>
+
+                </div>
+
+
+                <div class="editor-actions">
+
+                    <button
+                        class="action-btn run-btn"
+                        onclick="runDebugger(3)">
+                        Run
+                    </button>
+
+                    <button
+                        class="action-btn fix-btn"
+                        onclick="fixCode(3)">
+                        Fix
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div class="editor-wrapper">
+
+                <div
+                    id="lineNumbers3"
+                    class="line-numbers">
+                    1
+                </div>
+
+                <textarea
+                    id="editor3"
+                    class="code-editor"
+                    spellcheck="false"
+                    placeholder="Paste gmail_write.py code here..."
+                    oninput="handleInput(3)"
+                    onscroll="syncScroll(3)"></textarea>
+
+            </div>
+
+
+            <div
+                id="result3"
+                class="result waiting">
+
+                <div class="result-title">
+                    Ready
+                </div>
+
+                <div class="result-detail">
+                    Paste code and click Run or Fix.
+
+                </div>
+
+            </div>
+
+        </article>
+
+
+
+        <!-- =========================================
+             EDITOR 4
+             wsgi.py
+        ========================================== -->
+
+        <article class="editor-card">
+
+            <div class="editor-header">
+
+                <div class="file-info">
+
+                    <div class="editor-number">
+                        Editor 04
+                    </div>
+
+                    <div class="file-name">
+                        wsgi.py
+                    </div>
+
+                </div>
+
+
+                <div class="editor-actions">
+
+                    <button
+                        class="action-btn run-btn"
+                        onclick="runDebugger(4)">
+                        Run
+                    </button>
+
+                    <button
+                        class="action-btn fix-btn"
+                        onclick="fixCode(4)">
+                        Fix
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div class="editor-wrapper">
+
+                <div
+                    id="lineNumbers4"
+                    class="line-numbers">
+                    1
+                </div>
+
+                <textarea
+                    id="editor4"
+                    class="code-editor"
+                    spellcheck="false"
+                    placeholder="Paste wsgi.py code here..."
+                    oninput="handleInput(4)"
+                    onscroll="syncScroll(4)"></textarea>
+
+            </div>
+
+
+            <div
+                id="result4"
+                class="result waiting">
+
+                <div class="result-title">
+                    Ready
+                </div>
+
+                <div class="result-detail">
+                    Paste code and click Run or Fix.
+
+                </div>
+
+            </div>
+
+        </article>
+
+
+
+        <!-- =========================================
+             EDITOR 5
+             templates/index.html
+        ========================================== -->
+
+        <article class="editor-card full-width">
+
+            <div class="editor-header">
+
+                <div class="file-info">
+
+                    <div class="editor-number">
+                        Editor 05
+                    </div>
+
+                    <div class="file-name">
+                        templates/index.html
+                    </div>
+
+                </div>
+
+
+                <div class="editor-actions">
+
+                    <button
+                        class="action-btn run-btn"
+                        onclick="runDebugger(5)">
+                        Run
+                    </button>
+
+                    <button
+                        class="action-btn fix-btn"
+                        onclick="fixCode(5)">
+                        Fix
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div class="editor-wrapper">
+
+                <div
+                    id="lineNumbers5"
+                    class="line-numbers">
+                    1
+                </div>
+
+                <textarea
+                    id="editor5"
+                    class="code-editor"
+                    spellcheck="false"
+                    placeholder="Paste templates/index.html code here..."
+                    oninput="handleInput(5)"
+                    onscroll="syncScroll(5)"></textarea>
+
+            </div>
+
+
+            <div
+                id="result5"
+                class="result waiting">
+
+                <div class="result-title">
+                    Ready
+                </div>
+
+                <div class="result-detail">
+                    Paste code and click Run or Fix.
+
+                </div>
+
+            </div>
+
+        </article>
+
+
+    </section>
+
+
+    <footer>
+
+        Nova AI • Five Editor Code Inspection System
+
+    </footer>
+
+
+</main>
+
+
+
+<script>
+
+
+/* =====================================================
+   DEFAULT CODE DATABASE
+
+   Each editor has ONE independent default code.
+   Fix button uses ONLY the matching editor code.
+===================================================== */
+
+
+const defaultCodes = {
+
+
+    1: `from .gmail_write import is_email_command, extract_email, create_gmail_url
+from .gmail_gen import generate_email_with_gemini`,
+
+
+    2: `import os
+import json
+import re
+import time
+import random
+import urllib.request
+import urllib.error
+
+API_KEY = os.getenv("GEMINI_API_KEY", "")
+MODEL = os.getenv("GEMINI_MODEL", "gemini-3.5-flash")
+
+def generate_email_with_gemini(command):
+    if not API_KEY:
+        raise RuntimeError("GEMINI_API_KEY is missing.")
+
+    prompt = f"""
+You are a professional Gmail email writing assistant.
+
+Convert the user's voice command into a professional email.
+
+Rules:
+- Do not copy the command literally.
+- Do not explain anything.
+- Do not invent names, dates, prices, companies, attachments, or facts.
+- Keep the email natural and concise.
+- Include an appropriate greeting and closing.
+
+Output exactly:
+
+SUBJECT: <subject>
+BODY:
+<email body>
+
+User command:
+{command}
+"""
+
+    url = (
+        f"https://generativelanguage.googleapis.com/"
+        f"v1beta/models/{MODEL}:generateContent"
+    )
+
+    payload = {
+        "contents": [{"parts": [{"text": prompt }]}],
+        "generationConfig": {
+            "temperature": 0.7,
+            "maxOutputTokens": 800
+        }
+    }
+
+    req = urllib.request.Request(
+        url,
+        data=json.dumps(payload).encode(),
+        headers={
+            "Content-Type": "application/json",
+            "x-goog-api-key": API_KEY
+        },
+        method="POST"
+    )
+
+    for attempt in range(4):
+        try:
+            with urllib.request.urlopen(req, timeout=30) as response:
+                data = json.loads(response.read().decode())
+
+            text = data["candidates"][0]["content"]["parts"][0]["text"]
+            text = re.sub(r"\\`\\`\\`(?:text)?|\\`\\`\\`", "", text).strip()
+
+            subject = re.search(r"SUBJECT:\\s*(.+)", text, re.I)
+            body = re.search(r"BODY:\\s*([\\s\\S]+)", text, re.I)
+
+            if not subject or not body:
+                raise RuntimeError("Gemini returned an invalid email format.")
+
+            return {
+                "subject": subject.group(1).strip(),
+                "body": body.group(1).strip()
             }
 
+        except urllib.error.HTTPError as e:
+            if e.code != 429 or attempt == 3:
+                try:
+                    detail = e.read().decode()
+                except Exception:
+                    detail = str(e)
+                raise RuntimeError(f"Gemini API error: {detail}")
 
-            /* ==========================================
-               LINE ERROR
-               ========================================== */
+            time.sleep((2 ** attempt) + random.random())
 
-            else {
-
-              if (
-                err.indentation
-              ) {
-
-                html += `
-
-                  <div
-                    class="
-                      sub-issue
-                      indent-issue
-                    "
-                  >
-
-                    <span
-                      class="
-                        badge
-                        badge-indent
-                      "
-                    >
-                      Indentation Error
-                    </span>
-
-                    <p
-                      class="issue-desc"
-                    >
-
-                      ${escapeHtml(
-                        err.indentation.message
-                      )}
-
-                    </p>
-
-                  </div>
-
-                `;
-
-              }
+        except Exception:
+            if attempt == 3:
+                raise
+            time.sleep(1)`,
 
 
-              if (
-                err.character_mismatches
-                &&
-                err.character_mismatches.length
-              ) {
+    3: `import os
+import re
+import urllib.parse
 
-                html += `
+CLIENT_EMAIL = os.getenv("CLIENT_EMAIL", "")
 
-                  <div
-                    class="
-                      sub-issue
-                      char-issue
-                    "
-                  >
+KEYWORDS = (
+    "gmail", "email", "e-mail", "mail",
+    "write an email", "send an email", "draft an email",
+    "compose an email", "write mail", "send mail", "draft mail",
+    "compose mail"
+)
 
-                    <span
-                      class="
-                        badge
-                        badge-char
-                      "
-                    >
-                      Character Mismatch
-                    </span>
+def is_email_command(text):
+    text = text.lower()
+    return any(k in text for k in KEYWORDS)
 
-                    <ul
-                      class="char-list"
-                    >
+def extract_email(text):
+    match = re.search(r"[\\w.+-]+@[\\w.-]+\\.\\w+", text)
+    if match:
+        return match.group(0)
 
-                      ${err
-                        .character_mismatches
-                        .map(
-                          msg =>
-                            `<li>${escapeHtml(msg)}</li>`
-                        )
-                        .join("")
-                      }
+    match = re.search(
+        r"([\\w.+-]+)\\s+at\\s+([\\w.-]+)\\s+dot\\s+(\\w+)",
+        text.lower()
+    )
+    if match:
+        return f"{match.group(1)}@{match.group(2)}.{match.group(3)}"
 
-                    </ul>
+    if CLIENT_EMAIL and any(
+        x in text.lower()
+        for x in ("my client", "the client", "to client", "for my client")
+    ):
+        return CLIENT_EMAIL
 
-                  </div>
+    return ""
 
-                `;
-
-              }
-
-
-              if (
-                err.expected_line !==
-                undefined
-              ) {
-
-                html += `
-
-                  <span
-                    class="diff-label"
-                  >
-                    Expected Line:
-                  </span>
-
-                  <div
-                    class="
-                      code-diff
-                      diff-expected
-                    "
-                  >
-
-                    ${escapeHtml(
-                      err.expected_line
-                    )}
-
-                  </div>
-
-                `;
-
-              }
+def create_gmail_url(subject="", body="", recipient=""):
+    params = urllib.parse.urlencode({
+        "view": "cm",
+        "fs": "1",
+        "to": recipient,
+        "su": subject,
+        "body": body
+    })
+    return f"https://mail.google.com/mail/u/0/?{params}"`,
 
 
-              if (
-                err.found_line !==
-                undefined
-              ) {
+    4: `import os
 
-                html += `
+from flask import Flask, request, jsonify, render_template
+from flask_cors import CORS
 
-                  <span
-                    class="diff-label"
-                  >
-                    Submitted Line:
-                  </span>
+from app.gmail import (
+    is_email_command,
+    extract_email,
+    create_gmail_url,
+    generate_email_with_gemini
+)
 
-                  <div
-                    class="
-                      code-diff
-                      diff-found
-                    "
-                  >
+from app.youtube import youtube_bp
 
-                    ${escapeHtml(
-                      err.found_line
-                    )}
+def create_app():
 
-                  </div>
+    app = Flask(__name__)
+    CORS(app)
 
-                `;
+    # YouTube
+    app.register_blueprint(
+        youtube_bp,
+        url_prefix="/youtube"
+    )
 
-              }
+    # Home
+    @app.route("/")
+    def home():
+        return render_template("index.html")
 
+    # HTML
+    @app.route("/html")
+    def html():
+        return render_template("index.html")
+
+    # Health
+    @app.route("/health")
+    def health():
+        return jsonify({
+            "status": "ok",
+            "service": "Nova AI Agent"
+        })
+
+    # Gmail AI Agent
+    @app.route("/agent", methods=["POST"])
+    def agent():
+
+        try:
+            data = request.get_json(silent=True) or {}
+            command = data.get("command", "").strip()
+
+            if not command:
+                return jsonify({
+                    "success": False,
+                    "message": "Command is required"
+                }), 400
+
+            if not is_email_command(command):
+                return jsonify({
+                    "success": False,
+                    "message": "Please give a Gmail command."
+                }), 400
+
+            recipient = extract_email(command)
+
+            email = generate_email_with_gemini(command)
+
+            return jsonify({
+                "success": True,
+                "type": "email",
+                "email_generated": True,
+                "recipient": recipient,
+                "subject": email["subject"],
+                "body": email["body"],
+                "gmail_url": create_gmail_url(
+                    email["subject"],
+                    email["body"],
+                    recipient
+                )
+            })
+
+        except Exception as e:
+
+            return jsonify({
+                "success": False,
+                "message": str(e)
+            }), 500
+
+    return app`,
+
+
+    5: `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Nova AI</title>
+
+<style>
+body{
+    margin:0;
+    height:100vh;
+    display:grid;
+    place-items:center;
+    background:#111;
+    color:white;
+    font-family:Arial;
+}
+
+.card{
+    width:400px;
+    padding:25px;
+    text-align:center;
+    background:#222;
+    border:1px solid #444;
+    border-radius:10px;
+}
+
+.mic{
+    width:75px;
+    height:75px;
+    border:0;
+    border-radius:50%;
+    font-size:30px;
+    cursor:pointer;
+    background:#eee;
+}
+
+.mic.listening{
+    background:#aaa;
+}
+
+.status{
+    margin:15px;
+    color:#aaa;
+}
+
+.command{
+    margin:10px;
+    color:#ccc;
+}
+
+.editor{
+    display:none;
+    margin-top:20px;
+    text-align:left;
+}
+
+.recipient{
+    color:#aaa;
+    font-size:13px;
+}
+
+input,textarea{
+    width:100%;
+    margin:6px 0;
+    padding:10px;
+    box-sizing:border-box;
+    background:#111;
+    color:white;
+    border:1px solid #444;
+    border-radius:5px;
+}
+
+textarea{
+    height:130px;
+    resize:vertical;
+}
+
+button.action{
+    padding:10px 14px;
+    margin-top:5px;
+    border:0;
+    border-radius:5px;
+    cursor:pointer;
+}
+
+.primary{
+    background:#666;
+    color:white;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+
+<h2>Nova AI</h2>
+
+<p>Say a song name or create an email</p>
+
+<button id="mic" class="mic">🎙️</button>
+
+<div id="status" class="status">
+    Tap microphone
+</div>
+
+<div id="command" class="command"></div>
+
+
+<!-- Gmail Editor -->
+
+<div id="editor" class="editor">
+
+    <div id="recipient" class="recipient"></div>
+
+    <input id="subject"
+           placeholder="Email subject">
+
+    <textarea id="body"
+              placeholder="Email body"></textarea>
+
+    <button id="open"
+            class="action primary">
+        Open in Gmail
+    </button>
+
+    <button id="regen"
+            class="action">
+        Regenerate
+    </button>
+
+</div>
+
+</div>
+
+
+<script>
+
+const $=id=>document.getElementById(id);
+
+const mic=$("mic");
+const status=$("status");
+const commandBox=$("command");
+
+const editor=$("editor");
+const recipient=$("recipient");
+const subject=$("subject");
+const body=$("body");
+
+const SR=
+    window.SpeechRecognition||
+    window.webkitSpeechRecognition;
+
+let recognition;
+let listening=false;
+let lastCommand="";
+let youtubeTab=null;
+
+
+// Speech Recognition
+
+if(!SR){
+
+    status.textContent=
+        "Speech recognition unavailable";
+
+    mic.disabled=true;
+
+}else{
+
+    recognition=new SR();
+
+    recognition.lang="en-US";
+    recognition.continuous=false;
+    recognition.interimResults=false;
+
+
+    recognition.onstart=()=>{
+
+        listening=true;
+
+        mic.classList.add("listening");
+
+        status.textContent=
+            "Listening...";
+    };
+
+
+    recognition.onend=()=>{
+
+        listening=false;
+
+        mic.classList.remove("listening");
+    };
+
+
+    recognition.onerror=e=>{
+
+        listening=false;
+
+        mic.classList.remove("listening");
+
+        status.textContent=
+            "Voice error: "+e.error;
+    };
+
+
+    recognition.onresult=e=>{
+
+        const text=
+            e.results[0][0]
+            .transcript
+            .trim();
+
+        if(!text){
+
+            status.textContent=
+                "No command detected";
+
+            return;
+        }
+
+        lastCommand=text;
+
+        commandBox.textContent=text;
+
+        processCommand(text);
+    };
+
+
+    mic.onclick=()=>{
+
+        if(listening)return;
+
+        try{
+            recognition.start();
+        }catch(e){
+            console.log(e);
+        }
+
+    };
+
+}
+
+
+// Gmail command detection
+
+function isGmail(command){
+
+    return /email|mail|gmail|send|compose|write.*email/i
+        .test(command);
+}
+
+
+// Main command processor
+
+async function processCommand(command){
+
+    const gmail=isGmail(command);
+
+    status.textContent=
+        gmail
+        ?"Generating email..."
+        :"Finding song...";
+
+    try{
+
+        const response=await fetch(
+            gmail
+            ?"/agent"
+            :"/youtube/play",
+            {
+                method:"POST",
+
+                headers:{
+                    "Content-Type":
+                        "application/json"
+                },
+
+                body:JSON.stringify({
+                    command:command
+                })
             }
+        );
+
+        const data=
+            await response.json();
+
+        if(!response.ok||!data.success){
+
+            throw Error(
+                data.message||
+                "Request failed"
+            );
+        }
 
 
-            html += `
+        if(gmail){
 
-              </div>
+            showEmail(data);
 
-            `;
+        }else{
 
-          }
+            playYouTube(data);
+
+        }
+
+    }catch(error){
+
+        console.error(error);
+
+        status.textContent=
+            error.message||
+            "Server connection failed";
+    }
+}
+
+
+// Show generated email
+
+function showEmail(data){
+
+    recipient.dataset.email=
+        data.recipient||"";
+
+    recipient.textContent=
+        data.recipient
+        ?"To: "+data.recipient
+        :"Recipient not specified";
+
+    subject.value=
+        data.subject||"";
+
+    body.value=
+        data.body||"";
+
+    editor.style.display="block";
+
+    status.textContent=
+        "Email ready. Review or edit it.";
+}
+
+
+// Open Gmail
+
+$("open").onclick=()=>{
+
+    const url=
+        "https://mail.google.com/mail/u/0/?"+
+        new URLSearchParams({
+
+            view:"cm",
+            fs:"1",
+
+            to:
+                recipient.dataset.email||"",
+
+            su:
+                subject.value,
+
+            body:
+                body.value
+        });
+
+    const win=
+        window.open(
+            url,
+            "NovaGmail"
+        );
+
+    if(!win){
+
+        status.textContent=
+            "Please allow popups for this site.";
+    }
+};
+
+
+// Regenerate email
+
+$("regen").onclick=()=>{
+
+    if(lastCommand)
+        processCommand(lastCommand);
+};
+
+
+// YouTube playback
+
+function playYouTube(data){
+
+    if(!youtubeTab||
+       youtubeTab.closed){
+
+        youtubeTab=
+            window.open(
+                data.url,
+                "NovaYouTube"
+            );
+
+    }else{
+
+        youtubeTab.location.href=
+            data.url;
+
+        youtubeTab.focus();
+    }
+
+    status.textContent="Playing";
+}
+
+</script>
+
+</body>
+</html>`
+};
+
+
+/* =====================================================
+   FILE NAMES
+===================================================== */
+
+const fileNames = {
+
+    1: "gmail/__init__.py",
+
+    2: "gmail/gmail_gen.py",
+
+    3: "combined-agent/app/gmail/gmail_write.py",
+
+    4: "wsgi.py",
+
+    5: "templates/index.html"
+
+};
+
+
+/* =====================================================
+   EDITOR ACCESS
+===================================================== */
+
+function getEditor(editorIndex) {
+
+    return document.getElementById(
+        "editor" + editorIndex
+    );
+
+}
+
+
+function getLineNumbers(editorIndex) {
+
+    return document.getElementById(
+        "lineNumbers" + editorIndex
+    );
+
+}
+
+
+function getResult(editorIndex) {
+
+    return document.getElementById(
+        "result" + editorIndex
+    );
+
+}
+
+
+/* =====================================================
+   LINE NUMBERS
+===================================================== */
+
+function updateLineNumbers(editorIndex) {
+
+    const editor =
+        getEditor(editorIndex);
+
+    const lineNumbers =
+        getLineNumbers(editorIndex);
+
+
+    const lineCount =
+        Math.max(
+            editor.value.split("\n").length,
+            1
         );
 
 
-        resultsContainer.innerHTML =
-          html;
+    let numbers = "";
 
+    for(
+        let i = 1;
+        i <= lineCount;
+        i++
+    ){
 
-      } catch (err) {
-
-        console.error(
-          "Compare error:",
-          err
-        );
-
-
-        setEditorStatus(
-          editorIndex,
-          "Backend communication failed"
-        );
-
-
-        resultsContainer.innerHTML = `
-
-          <div
-            class="status-badge status-fail"
-          >
-
-            ❌ Backend communication failed
-
-          </div>
-
-          <p
-            style="
-              color: var(--text-muted);
-              font-size: 0.85rem;
-            "
-          >
-
-            Failed to communicate with
-            Nova Debug backend.
-
-          </p>
-
-        `;
-
-      }
+        numbers += i + "\n";
 
     }
 
 
-    /* ======================================================
-       FULL CODE FIX
-       ====================================================== */
+    lineNumbers.textContent =
+        numbers;
 
-    async function fixCode(
-      editorIndex
-    ) {
-
-      const editor =
-        editors[editorIndex - 1];
+}
 
 
-      const editorId =
-        getEditorId(
-          editorIndex
+/* =====================================================
+   INPUT
+===================================================== */
+
+function handleInput(editorIndex) {
+
+    updateLineNumbers(
+        editorIndex
+    );
+
+
+    const result =
+        getResult(editorIndex);
+
+
+    result.className =
+        "result waiting";
+
+
+    result.innerHTML = `
+        <div class="result-title">
+            Modified
+        </div>
+
+        <div class="result-detail">
+            Code has been changed. Click Run to inspect it or Fix to restore the default.
+        </div>
+    `;
+
+}
+
+
+/* =====================================================
+   SCROLL SYNCHRONIZATION
+===================================================== */
+
+function syncScroll(editorIndex) {
+
+    const editor =
+        getEditor(editorIndex);
+
+    const lineNumbers =
+        getLineNumbers(editorIndex);
+
+
+    lineNumbers.scrollTop =
+        editor.scrollTop;
+
+}
+
+
+/* =====================================================
+   NORMALIZE CODE
+===================================================== */
+
+function normalizeCode(code) {
+
+    return code
+        .replace(/\r\n/g, "\n")
+        .replace(/\r/g, "\n")
+        .trim();
+
+}
+
+
+/* =====================================================
+   RUN / INSPECT
+
+   Run checks ONLY the selected editor.
+===================================================== */
+
+function runDebugger(editorIndex) {
+
+    const editor =
+        getEditor(editorIndex);
+
+    const result =
+        getResult(editorIndex);
+
+    const currentCode =
+        normalizeCode(
+            editor.value
+        );
+
+    const defaultCode =
+        normalizeCode(
+            defaultCodes[editorIndex]
         );
 
 
-      setEditorStatus(
-        editorIndex,
-        "Restoring default code..."
-      );
+    /* Empty editor */
+
+    if(!currentCode){
+
+        result.className =
+            "result fail";
+
+        result.innerHTML = `
+            <div class="result-title">
+                ✕ Empty Editor
+            </div>
+
+            <div class="result-detail">
+                ${escapeHtml(fileNames[editorIndex])}
+                has no code. Paste code or click Fix.
+            </div>
+        `;
+
+        return;
+
+    }
 
 
-      try {
+    /* Correct code */
 
-        const response =
-          await fetch(
-            "/fix",
-            {
-              method: "POST",
+    if(currentCode === defaultCode){
 
-              headers: {
-                "Content-Type":
-                  "application/json"
-              },
+        result.className =
+            "result pass";
 
-              body: JSON.stringify({
+        result.innerHTML = `
+            <div class="result-title">
+                ✓ Code Matches
+            </div>
 
-                editor_id:
-                  editorId
+            <div class="result-detail">
+                The code matches the registered default for
+                ${escapeHtml(fileNames[editorIndex])}.
+            </div>
+        `;
 
-              })
+        return;
 
-            }
-          );
-
-
-        const data =
-          await response.json();
+    }
 
 
-        if (
-          !response.ok ||
-          !data.success
-        ) {
+    /* Incorrect code */
 
-          throw new Error(
-            data.message ||
-            "Fix operation failed"
-          );
+    const differences =
+        compareLines(
+            currentCode,
+            defaultCode
+        );
+
+
+    result.className =
+        "result fail";
+
+    result.innerHTML = `
+        <div class="result-title">
+            ✕ Code Does Not Match
+        </div>
+
+        <div class="result-detail">
+            ${escapeHtml(fileNames[editorIndex])}
+            contains ${differences} different line(s).
+            Click Fix to replace the entire editor with the default code.
+        </div>
+    `;
+
+}
+
+
+/* =====================================================
+   FIX CODE
+
+   IMPORTANT:
+   This completely replaces ONLY the selected editor.
+===================================================== */
+
+function fixCode(editorIndex) {
+
+    const editor =
+        getEditor(editorIndex);
+
+    const result =
+        getResult(editorIndex);
+
+
+    /*
+
+       Get the default code belonging
+       ONLY to this editor.
+
+    */
+
+    const fixedCode =
+        defaultCodes[editorIndex];
+
+
+    /*
+
+       Replace the ENTIRE current
+       editor content.
+
+    */
+
+    editor.value =
+        fixedCode;
+
+
+    /* Update line numbers */
+
+    updateLineNumbers(
+        editorIndex
+    );
+
+
+    /* Reset scroll */
+
+    editor.scrollTop = 0;
+
+    editor.scrollLeft = 0;
+
+
+    /* Show success */
+
+    result.className =
+        "result fix";
+
+    result.innerHTML = `
+        <div class="result-title">
+            ✓ Fixed Successfully
+        </div>
+
+        <div class="result-detail">
+            The entire editor was replaced with the default code for
+            ${escapeHtml(fileNames[editorIndex])}.
+        </div>
+    `;
+
+}
+
+
+/* =====================================================
+   COMPARE LINES
+===================================================== */
+
+function compareLines(
+    currentCode,
+    defaultCode
+){
+
+    const currentLines =
+        currentCode.split("\n");
+
+    const defaultLines =
+        defaultCode.split("\n");
+
+
+    const maxLines =
+        Math.max(
+            currentLines.length,
+            defaultLines.length
+        );
+
+
+    let differences = 0;
+
+
+    for(
+        let i = 0;
+        i < maxLines;
+        i++
+    ){
+
+        if(
+            (currentLines[i] || "") !==
+            (defaultLines[i] || "")
+        ){
+
+            differences++;
+
+        }
+
+    }
+
+
+    return differences;
+
+}
+
+
+/* =====================================================
+   LOAD TEMPLATE CODE
+
+   IMPORTANT:
+   This does NOT automatically fill
+   the editors.
+
+   Editors remain EMPTY when the
+   page first loads.
+
+   Clicking the N logo can be used
+   to load the defaults manually.
+===================================================== */
+
+function loadTemplateCode() {
+
+    for(
+        let i = 1;
+        i <= 5;
+        i++
+    ){
+
+        const editor =
+            getEditor(i);
+
+        editor.value =
+            defaultCodes[i];
+
+        updateLineNumbers(i);
+
+    }
+
+
+    for(
+        let i = 1;
+        i <= 5;
+        i++
+    ){
+
+        const result =
+            getResult(i);
+
+        result.className =
+            "result fix";
+
+        result.innerHTML = `
+            <div class="result-title">
+                Default Code Loaded
+            </div>
+
+            <div class="result-detail">
+                ${escapeHtml(fileNames[i])}
+                default code has been loaded.
+            </div>
+        `;
+
+    }
+
+}
+
+
+/* =====================================================
+   ESCAPE HTML
+===================================================== */
+
+function escapeHtml(value) {
+
+    return String(value)
+
+        .replace(/&/g, "&amp;")
+
+        .replace(/</g, "&lt;")
+
+        .replace(/>/g, "&gt;")
+
+        .replace(/"/g, "&quot;")
+
+        .replace(/'/g, "&#039;");
+
+}
+
+
+/* =====================================================
+   TAB SUPPORT
+===================================================== */
+
+document.addEventListener(
+    "keydown",
+    function(event){
+
+        if(
+            event.key !== "Tab" ||
+            !event.target.classList.contains(
+                "code-editor"
+            )
+        ){
+
+            return;
 
         }
 
 
-        /* ================================================
-           IMPORTANT:
-           ENTIRE EDITOR CONTENT IS REPLACED
-           ================================================ */
+        event.preventDefault();
 
-        editor.value =
-          data.fixed_code;
 
+        const textarea =
+            event.target;
 
-        /* ================================================
-           REFRESH LINE NUMBERS
-           ================================================ */
 
-        updateLineNumbers(
-          editorIndex
-        );
+        const start =
+            textarea.selectionStart;
 
+        const end =
+            textarea.selectionEnd;
 
-        /* ================================================
-           UPDATE STATUS
-           ================================================ */
 
-        setEditorStatus(
-          editorIndex,
-          "Default code restored"
-        );
+        textarea.value =
+            textarea.value.substring(
+                0,
+                start
+            ) +
+            "    " +
+            textarea.value.substring(
+                end
+            );
 
 
-        /* ================================================
-           CLEAR ERROR MARKERS
-           ================================================ */
+        textarea.selectionStart =
+            start + 4;
 
-        updateLineNumbers(
-          editorIndex,
-          []
-        );
+        textarea.selectionEnd =
+            start + 4;
 
 
-        /* ================================================
-           RESULTS PANEL
-           ================================================ */
+        const editorIndex =
+            Number(
+                textarea.id.replace(
+                    "editor",
+                    ""
+                )
+            );
 
-        const fileNames = {
 
-          1:
-            "app/__init__.py",
-
-          2:
-            "app/youtube/__init__.py",
-
-          3:
-            "app/youtube/player.py",
-
-          4:
-            "wsgi.py",
-
-          5:
-            "templates/index.html"
-
-        };
-
-
-        resultsContainer.innerHTML = `
-
-          <div
-            class="status-badge status-pass"
-          >
-
-            ✅ Editor ${editorIndex} Fixed
-
-          </div>
-
-
-          <p
-            style="
-              color: var(--text-muted);
-              font-size: 0.85rem;
-              line-height: 1.6;
-            "
-          >
-
-            The entire contents of
-            <strong
-              style="color: var(--text-main);"
-            >
-              ${escapeHtml(
-                fileNames[editorIndex]
-              )}
-            </strong>
-
-            have been replaced with the
-            registered default code.
-
-          </p>
-
-
-          <div
-            style="
-              margin-top: 1rem;
-              padding: 0.75rem;
-              border-radius: 6px;
-              background: #0d1117;
-              border: 1px solid var(--border-color);
-              font-family: 'Fira Code', monospace;
-              font-size: 0.75rem;
-              color: var(--success-green);
-            "
-          >
-
-            ✓ Complete code restored
-
-          </div>
-
-        `;
-
-
-      } catch (err) {
-
-        console.error(
-          "Fix error:",
-          err
-        );
-
-
-        setEditorStatus(
-          editorIndex,
-          "Fix failed"
-        );
-
-
-        resultsContainer.innerHTML = `
-
-          <div
-            class="status-badge status-fail"
-          >
-
-            ❌ Fix Failed
-
-          </div>
-
-
-          <p
-            style="
-              color: var(--text-muted);
-              font-size: 0.85rem;
-            "
-          >
-
-            ${escapeHtml(
-              err.message ||
-              "Could not restore the default code."
-            )}
-
-          </p>
-
-        `;
-
-      }
-
-    }
-
-
-    /* ======================================================
-       HTML ESCAPING
-       ====================================================== */
-
-    function escapeHtml(
-      str
-    ) {
-
-      if (
-        str === null ||
-        str === undefined
-      ) {
-
-        return "";
-
-      }
-
-
-      return String(str)
-
-        .replace(
-          /&/g,
-          "&amp;"
-        )
-
-        .replace(
-          /</g,
-          "&lt;"
-        )
-
-        .replace(
-          />/g,
-          "&gt;"
-        )
-
-        .replace(
-          /"/g,
-          "&quot;"
-        )
-
-        .replace(
-          /'/g,
-          "&#039;"
+        handleInput(
+            editorIndex
         );
 
     }
+);
 
 
-    /* ======================================================
-       INITIAL LINE NUMBERS
-       ====================================================== */
+/* =====================================================
+   INITIALIZE
 
-    for (
-      let i = 1;
-      i <= editorCount;
-      i++
-    ) {
+   IMPORTANT:
+   All editors remain EMPTY.
+===================================================== */
 
-      updateLineNumbers(
-        i
-      );
+window.addEventListener(
+    "DOMContentLoaded",
+    function(){
+
+        for(
+            let i = 1;
+            i <= 5;
+            i++
+        ){
+
+            const editor =
+                getEditor(i);
+
+            editor.value = "";
+
+            updateLineNumbers(i);
+
+        }
 
     }
+);
 
 
-  </script>
-
+</script>
 
 </body>
 
