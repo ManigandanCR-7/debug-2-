@@ -5,14 +5,14 @@
 
   <meta charset="UTF-8">
 
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>Nova-Code Tester | Next-Gen Code Inspector</title>
 
   <link
     href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;500;600;700&display=swap"
-    rel="stylesheet">
+    rel="stylesheet"
+  >
 
   <style>
 
@@ -24,7 +24,12 @@
       margin: 0;
       min-height: 100vh;
       background:
-        radial-gradient(circle at top left, #18202b 0%, #0d1117 35%, #090d12 100%);
+        radial-gradient(
+          circle at top left,
+          #18202b 0%,
+          #0d1117 35%,
+          #090d12 100%
+        );
       color: #e6edf3;
       font-family: "Inter", sans-serif;
     }
@@ -57,8 +62,8 @@
       place-items: center;
       background: #21262d;
       border: 1px solid #30363d;
-      font-weight: 700;
       color: #58a6ff;
+      font-weight: 700;
     }
 
     .brand h1 {
@@ -74,7 +79,9 @@
 
     .container {
       display: grid;
-      grid-template-columns: minmax(0, 2fr) minmax(320px, 1fr);
+      grid-template-columns:
+        minmax(0, 2fr)
+        minmax(320px, 1fr);
       gap: 18px;
       padding: 20px;
       max-width: 1800px;
@@ -83,7 +90,8 @@
 
     .editors-grid {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns:
+        repeat(2, minmax(0, 1fr));
       gap: 18px;
     }
 
@@ -93,7 +101,8 @@
       border: 1px solid #30363d;
       border-radius: 12px;
       background: #0d1117;
-      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+      box-shadow:
+        0 15px 40px rgba(0, 0, 0, 0.25);
     }
 
     .editor-card.full-width {
@@ -120,7 +129,8 @@
     .file-icon {
       color: #58a6ff;
       font-family: "Fira Code", monospace;
-      font-size: 13px;
+      font-size: 11px;
+      font-weight: 600;
     }
 
     .file-name {
@@ -178,6 +188,10 @@
       color: #f85149;
     }
 
+    .editor-status.loading {
+      color: #79c0ff;
+    }
+
     .editor-wrapper {
       position: relative;
       display: flex;
@@ -233,7 +247,8 @@
       border: 1px solid #30363d;
       border-radius: 12px;
       background: #0d1117;
-      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+      box-shadow:
+        0 15px 40px rgba(0, 0, 0, 0.25);
     }
 
     .results-header {
@@ -300,15 +315,6 @@
       word-break: break-word;
     }
 
-    .error-label {
-      color: #ffa198;
-      font-weight: 600;
-    }
-
-    .loading {
-      color: #79c0ff;
-    }
-
     @media (max-width: 1100px) {
 
       .container {
@@ -357,6 +363,7 @@
 
 <body>
 
+
 <header>
 
   <div class="brand">
@@ -366,8 +373,15 @@
     </div>
 
     <div>
-      <h1>Nova Debug</h1>
-      <span>Next-Gen Code Inspector</span>
+
+      <h1>
+        Nova Debug
+      </h1>
+
+      <span>
+        Next-Gen Code Inspector
+      </span>
+
     </div>
 
   </div>
@@ -375,14 +389,16 @@
 </header>
 
 
+
 <div class="container">
+
 
   <main class="editors-grid">
 
 
-    <!-- ========================================================= -->
-    <!-- EDITOR 1 -->
-    <!-- ========================================================= -->
+    <!-- =====================================================
+         EDITOR 1
+         ===================================================== -->
 
     <section class="editor-card">
 
@@ -390,7 +406,9 @@
 
         <div class="file-info">
 
-          <span class="file-icon">PY</span>
+          <span class="file-icon">
+            PY
+          </span>
 
           <span class="file-name">
             gmail/__init__.py
@@ -398,15 +416,18 @@
 
         </div>
 
+
         <div class="editor-actions">
 
-          <button class="run-btn"
-                  onclick="runDebugger(1)">
+          <button
+            class="run-btn"
+            onclick="runDebugger(1)">
             Run
           </button>
 
-          <button class="fix-btn"
-                  onclick="fixCode(1)">
+          <button
+            class="fix-btn"
+            onclick="fixCode(1)">
             Fix
           </button>
 
@@ -414,17 +435,21 @@
 
       </div>
 
-      <div id="editorStatus1"
-           class="editor-status">
-        Ready
+
+      <div
+        id="editorStatus1"
+        class="editor-status">
+        Empty
       </div>
+
 
       <div class="editor-wrapper">
 
-        <div id="lineNumbers1"
-             class="line-numbers">
-          1
+        <div
+          id="lineNumbers1"
+          class="line-numbers">
         </div>
+
 
         <textarea
           id="codeEditor1"
@@ -439,9 +464,10 @@
     </section>
 
 
-    <!-- ========================================================= -->
-    <!-- EDITOR 2 -->
-    <!-- ========================================================= -->
+
+    <!-- =====================================================
+         EDITOR 2
+         ===================================================== -->
 
     <section class="editor-card">
 
@@ -449,7 +475,9 @@
 
         <div class="file-info">
 
-          <span class="file-icon">PY</span>
+          <span class="file-icon">
+            PY
+          </span>
 
           <span class="file-name">
             gmail/gmail_gen.py
@@ -457,15 +485,18 @@
 
         </div>
 
+
         <div class="editor-actions">
 
-          <button class="run-btn"
-                  onclick="runDebugger(2)">
+          <button
+            class="run-btn"
+            onclick="runDebugger(2)">
             Run
           </button>
 
-          <button class="fix-btn"
-                  onclick="fixCode(2)">
+          <button
+            class="fix-btn"
+            onclick="fixCode(2)">
             Fix
           </button>
 
@@ -473,17 +504,21 @@
 
       </div>
 
-      <div id="editorStatus2"
-           class="editor-status">
-        Ready
+
+      <div
+        id="editorStatus2"
+        class="editor-status">
+        Empty
       </div>
+
 
       <div class="editor-wrapper">
 
-        <div id="lineNumbers2"
-             class="line-numbers">
-          1
+        <div
+          id="lineNumbers2"
+          class="line-numbers">
         </div>
+
 
         <textarea
           id="codeEditor2"
@@ -498,9 +533,10 @@
     </section>
 
 
-    <!-- ========================================================= -->
-    <!-- EDITOR 3 -->
-    <!-- ========================================================= -->
+
+    <!-- =====================================================
+         EDITOR 3
+         ===================================================== -->
 
     <section class="editor-card">
 
@@ -508,7 +544,9 @@
 
         <div class="file-info">
 
-          <span class="file-icon">PY</span>
+          <span class="file-icon">
+            PY
+          </span>
 
           <span class="file-name">
             gmail/gmail_write.py
@@ -516,15 +554,18 @@
 
         </div>
 
+
         <div class="editor-actions">
 
-          <button class="run-btn"
-                  onclick="runDebugger(3)">
+          <button
+            class="run-btn"
+            onclick="runDebugger(3)">
             Run
           </button>
 
-          <button class="fix-btn"
-                  onclick="fixCode(3)">
+          <button
+            class="fix-btn"
+            onclick="fixCode(3)">
             Fix
           </button>
 
@@ -532,17 +573,21 @@
 
       </div>
 
-      <div id="editorStatus3"
-           class="editor-status">
-        Ready
+
+      <div
+        id="editorStatus3"
+        class="editor-status">
+        Empty
       </div>
+
 
       <div class="editor-wrapper">
 
-        <div id="lineNumbers3"
-             class="line-numbers">
-          1
+        <div
+          id="lineNumbers3"
+          class="line-numbers">
         </div>
+
 
         <textarea
           id="codeEditor3"
@@ -557,9 +602,10 @@
     </section>
 
 
-    <!-- ========================================================= -->
-    <!-- EDITOR 4 -->
-    <!-- ========================================================= -->
+
+    <!-- =====================================================
+         EDITOR 4
+         ===================================================== -->
 
     <section class="editor-card">
 
@@ -567,7 +613,9 @@
 
         <div class="file-info">
 
-          <span class="file-icon">PY</span>
+          <span class="file-icon">
+            PY
+          </span>
 
           <span class="file-name">
             app/__init__.py
@@ -575,15 +623,18 @@
 
         </div>
 
+
         <div class="editor-actions">
 
-          <button class="run-btn"
-                  onclick="runDebugger(4)">
+          <button
+            class="run-btn"
+            onclick="runDebugger(4)">
             Run
           </button>
 
-          <button class="fix-btn"
-                  onclick="fixCode(4)">
+          <button
+            class="fix-btn"
+            onclick="fixCode(4)">
             Fix
           </button>
 
@@ -591,17 +642,21 @@
 
       </div>
 
-      <div id="editorStatus4"
-           class="editor-status">
-        Ready
+
+      <div
+        id="editorStatus4"
+        class="editor-status">
+        Empty
       </div>
+
 
       <div class="editor-wrapper">
 
-        <div id="lineNumbers4"
-             class="line-numbers">
-          1
+        <div
+          id="lineNumbers4"
+          class="line-numbers">
         </div>
+
 
         <textarea
           id="codeEditor4"
@@ -616,9 +671,10 @@
     </section>
 
 
-    <!-- ========================================================= -->
-    <!-- EDITOR 5 -->
-    <!-- ========================================================= -->
+
+    <!-- =====================================================
+         EDITOR 5
+         ===================================================== -->
 
     <section class="editor-card full-width">
 
@@ -626,7 +682,9 @@
 
         <div class="file-info">
 
-          <span class="file-icon">HTML</span>
+          <span class="file-icon">
+            HTML
+          </span>
 
           <span class="file-name">
             templates/index.html
@@ -634,15 +692,18 @@
 
         </div>
 
+
         <div class="editor-actions">
 
-          <button class="run-btn"
-                  onclick="runDebugger(5)">
+          <button
+            class="run-btn"
+            onclick="runDebugger(5)">
             Run
           </button>
 
-          <button class="fix-btn"
-                  onclick="fixCode(5)">
+          <button
+            class="fix-btn"
+            onclick="fixCode(5)">
             Fix
           </button>
 
@@ -650,17 +711,21 @@
 
       </div>
 
-      <div id="editorStatus5"
-           class="editor-status">
-        Ready
+
+      <div
+        id="editorStatus5"
+        class="editor-status">
+        Empty
       </div>
+
 
       <div class="editor-wrapper">
 
-        <div id="lineNumbers5"
-             class="line-numbers">
-          1
+        <div
+          id="lineNumbers5"
+          class="line-numbers">
         </div>
+
 
         <textarea
           id="codeEditor5"
@@ -678,9 +743,10 @@
   </main>
 
 
-  <!-- ========================================================= -->
-  <!-- RESULTS -->
-  <!-- ========================================================= -->
+
+  <!-- =====================================================
+       RESULTS PANEL
+       ===================================================== -->
 
   <aside class="results-panel">
 
@@ -691,15 +757,17 @@
       </h2>
 
       <p>
-        Compare your code with the expected project structure.
+        Compare your code with the corresponding default code.
       </p>
 
     </div>
 
+
     <div id="resultsContainer">
 
       <div class="empty-result">
-        Run an editor to inspect the result.
+        All editors are empty.
+        Enter code and click Run or Fix.
       </div>
 
     </div>
@@ -710,15 +778,28 @@
 </div>
 
 
+
 <script>
+
+
+/* =========================================================
+   EDITOR CONFIGURATION
+   ========================================================= */
 
 const editorCount = 5;
 
 const editors = [];
+
 const lineNumbers = [];
+
 const editorStatuses = [];
 
-for(let i = 1; i <= editorCount; i++){
+
+for (
+  let i = 1;
+  i <= editorCount;
+  i++
+) {
 
   editors.push(
     document.getElementById(
@@ -741,6 +822,7 @@ for(let i = 1; i <= editorCount; i++){
 }
 
 
+
 /* =========================================================
    FILE NAMES
    ========================================================= */
@@ -760,25 +842,822 @@ const fileNames = {
 };
 
 
+
+/* =========================================================
+   DEFAULT CODE
+   ========================================================= */
+
+const defaultCodes = {
+
+  1: `from .gmail_write import is_email_command, extract_email, create_gmail_url
+from .gmail_gen import generate_email_with_gemini`,
+
+  2: `import os
+import json
+import re
+import time
+import random
+import urllib.request
+import urllib.error
+
+API_KEY = os.getenv("GEMINI_API_KEY", "")
+MODEL = os.getenv("GEMINI_MODEL", "gemini-3.5-flash")
+
+def generate_email_with_gemini(command):
+    if not API_KEY:
+        raise RuntimeError("GEMINI_API_KEY is missing.")
+
+    prompt = f"""
+You are a professional Gmail email writing assistant.
+
+Convert the user's voice command into a professional email.
+
+Rules:
+- Do not copy the command literally.
+- Do not explain anything.
+- Do not invent names, dates, prices, companies, attachments, or facts.
+- Keep the email natural and concise.
+- Include an appropriate greeting and closing.
+
+Output exactly:
+
+SUBJECT: <subject>
+BODY:
+<email body>
+
+User command:
+{command}
+"""
+
+    url = (
+        f"https://generativelanguage.googleapis.com/"
+        f"v1beta/models/{MODEL}:generateContent"
+    )
+
+    payload = {
+        "contents": [{"parts": [{"text": prompt}]}],
+        "generationConfig": {
+            "temperature": 0.7,
+            "maxOutputTokens": 800
+        }
+    }
+
+    req = urllib.request.Request(
+        url,
+        data=json.dumps(payload).encode(),
+        headers={
+            "Content-Type": "application/json",
+            "x-goog-api-key": API_KEY
+        },
+        method="POST"
+    )
+
+    for attempt in range(4):
+        try:
+            with urllib.request.urlopen(req, timeout=30) as response:
+                data = json.loads(response.read().decode())
+
+            text = data["candidates"][0]["content"]["parts"][0]["text"]
+            text = re.sub(r"```(?:text)?|```", "", text).strip()
+
+            subject = re.search(r"SUBJECT:\\s*(.+)", text, re.I)
+            body = re.search(r"BODY:\\s*([\\s\\S]+)", text, re.I)
+
+            if not subject or not body:
+                raise RuntimeError("Gemini returned an invalid email format.")
+
+            return {
+                "subject": subject.group(1).strip(),
+                "body": body.group(1).strip()
+            }
+
+        except urllib.error.HTTPError as e:
+            if e.code != 429 or attempt == 3:
+                try:
+                    detail = e.read().decode()
+                except Exception:
+                    detail = str(e)
+
+                raise RuntimeError(
+                    f"Gemini API error: {detail}"
+                )
+
+            time.sleep(
+                (2 ** attempt) +
+                random.random()
+            )
+
+        except Exception:
+            if attempt == 3:
+                raise
+
+            time.sleep(1)`,
+
+  3: `import os
+import re
+import urllib.parse
+
+CLIENT_EMAIL = os.getenv("CLIENT_EMAIL", "")
+
+KEYWORDS = (
+    "gmail", "email", "e-mail", "mail",
+    "write an email", "send an email", "draft an email",
+    "compose an email", "write mail", "send mail", "draft mail",
+    "compose mail"
+)
+
+def is_email_command(text):
+    text = text.lower()
+    return any(k in text for k in KEYWORDS)
+
+def extract_email(text):
+    match = re.search(r"[\\w.+-]+@[\\w.-]+\\.\\w+", text)
+
+    if match:
+        return match.group(0)
+
+    match = re.search(
+        r"([\\w.+-]+)\\s+at\\s+([\\w.-]+)\\s+dot\\s+(\\w+)",
+        text.lower()
+    )
+
+    if match:
+        return (
+            f"{match.group(1)}@"
+            f"{match.group(2)}."
+            f"{match.group(3)}"
+        )
+
+    if CLIENT_EMAIL and any(
+        x in text.lower()
+        for x in (
+            "my client",
+            "the client",
+            "to client",
+            "for my client"
+        )
+    ):
+        return CLIENT_EMAIL
+
+    return ""
+
+def create_gmail_url(
+    subject="",
+    body="",
+    recipient=""
+):
+    params = urllib.parse.urlencode({
+        "view": "cm",
+        "fs": "1",
+        "to": recipient,
+        "su": subject,
+        "body": body
+    })
+
+    return f"https://mail.google.com/mail/u/0/?{params}"`,
+
+  4: `import os
+
+from flask import Flask, request, jsonify, render_template
+from flask_cors import CORS
+
+from app.gmail import (
+    is_email_command,
+    extract_email,
+    create_gmail_url,
+    generate_email_with_gemini
+)
+
+from app.youtube import youtube_bp
+
+def create_app():
+
+    app = Flask(__name__)
+
+    CORS(app)
+
+    # YouTube
+    app.register_blueprint(
+        youtube_bp,
+        url_prefix="/youtube"
+    )
+
+    # Home
+    @app.route("/")
+    def home():
+        return render_template("index.html")
+
+    # HTML
+    @app.route("/html")
+    def html():
+        return render_template("index.html")
+
+    # Health
+    @app.route("/health")
+    def health():
+        return jsonify({
+            "status": "ok",
+            "service": "Nova AI Agent"
+        })
+
+    # Gmail AI Agent
+    @app.route("/agent", methods=["POST"])
+    def agent():
+
+        try:
+
+            data = request.get_json(
+                silent=True
+            ) or {}
+
+            command = data.get(
+                "command",
+                ""
+            ).strip()
+
+            if not command:
+                return jsonify({
+                    "success": False,
+                    "message": "Command is required"
+                }), 400
+
+            if not is_email_command(command):
+                return jsonify({
+                    "success": False,
+                    "message": "Please give a Gmail command."
+                }), 400
+
+            recipient = extract_email(
+                command
+            )
+
+            email = generate_email_with_gemini(
+                command
+            )
+
+            return jsonify({
+
+                "success": True,
+
+                "type": "email",
+
+                "email_generated": True,
+
+                "recipient": recipient,
+
+                "subject": email["subject"],
+
+                "body": email["body"],
+
+                "gmail_url": create_gmail_url(
+                    email["subject"],
+                    email["body"],
+                    recipient
+                )
+
+            })
+
+        except Exception as e:
+
+            return jsonify({
+                "success": False,
+                "message": str(e)
+            }), 500
+
+    return app`,
+
+  5: `<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width,initial-scale=1">
+
+<title>Nova AI</title>
+
+<style>
+
+body{
+    margin:0;
+    height:100vh;
+    display:grid;
+    place-items:center;
+    background:#111;
+    color:white;
+    font-family:Arial;
+}
+
+.card{
+    width:400px;
+    padding:25px;
+    text-align:center;
+    background:#222;
+    border:1px solid #444;
+    border-radius:10px;
+}
+
+.mic{
+    width:75px;
+    height:75px;
+    border:0;
+    border-radius:50%;
+    font-size:30px;
+    cursor:pointer;
+    background:#eee;
+}
+
+.mic.listening{
+    background:#aaa;
+}
+
+.status{
+    margin:15px;
+    color:#aaa;
+}
+
+.command{
+    margin:10px;
+    color:#ccc;
+}
+
+.editor{
+    display:none;
+    margin-top:20px;
+    text-align:left;
+}
+
+.recipient{
+    color:#aaa;
+    font-size:13px;
+}
+
+input,textarea{
+    width:100%;
+    margin:6px 0;
+    padding:10px;
+    box-sizing:border-box;
+    background:#111;
+    color:white;
+    border:1px solid #444;
+    border-radius:5px;
+}
+
+textarea{
+    height:130px;
+    resize:vertical;
+}
+
+button.action{
+    padding:10px 14px;
+    margin-top:5px;
+    border:0;
+    border-radius:5px;
+    cursor:pointer;
+}
+
+.primary{
+    background:#666;
+    color:white;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="card">
+
+<h2>Nova AI</h2>
+
+<p>Say a song name or create an email</p>
+
+<button id="mic"
+        class="mic">
+    🎙️
+</button>
+
+<div id="status"
+     class="status">
+    Tap microphone
+</div>
+
+<div id="command"
+     class="command">
+</div>
+
+<div id="editor"
+     class="editor">
+
+    <div id="recipient"
+         class="recipient">
+    </div>
+
+    <input id="subject"
+           placeholder="Email subject">
+
+    <textarea id="body"
+              placeholder="Email body"></textarea>
+
+    <button id="open"
+            class="action primary">
+        Open in Gmail
+    </button>
+
+    <button id="regen"
+            class="action">
+        Regenerate
+    </button>
+
+</div>
+
+</div>
+
+<script>
+
+const $ =
+    id =>
+    document.getElementById(id);
+
+const mic =
+    $("mic");
+
+const status =
+    $("status");
+
+const commandBox =
+    $("command");
+
+const editor =
+    $("editor");
+
+const recipient =
+    $("recipient");
+
+const subject =
+    $("subject");
+
+const body =
+    $("body");
+
+const SR =
+    window.SpeechRecognition ||
+    window.webkitSpeechRecognition;
+
+let recognition;
+
+let listening = false;
+
+let lastCommand = "";
+
+let youtubeTab = null;
+
+if(!SR){
+
+    status.textContent =
+        "Speech recognition unavailable";
+
+    mic.disabled = true;
+
+}else{
+
+    recognition =
+        new SR();
+
+    recognition.lang =
+        "en-US";
+
+    recognition.continuous =
+        false;
+
+    recognition.interimResults =
+        false;
+
+    recognition.onstart =
+        () => {
+
+            listening = true;
+
+            mic.classList.add(
+                "listening"
+            );
+
+            status.textContent =
+                "Listening...";
+
+        };
+
+    recognition.onend =
+        () => {
+
+            listening = false;
+
+            mic.classList.remove(
+                "listening"
+            );
+
+        };
+
+    recognition.onerror =
+        e => {
+
+            listening = false;
+
+            mic.classList.remove(
+                "listening"
+            );
+
+            status.textContent =
+                "Voice error: " +
+                e.error;
+
+        };
+
+    recognition.onresult =
+        e => {
+
+            const text =
+                e.results[0][0]
+                .transcript
+                .trim();
+
+            if(!text){
+
+                status.textContent =
+                    "No command detected";
+
+                return;
+
+            }
+
+            lastCommand =
+                text;
+
+            commandBox.textContent =
+                text;
+
+            processCommand(
+                text
+            );
+
+        };
+
+    mic.onclick =
+        () => {
+
+            if(listening)
+                return;
+
+            try{
+
+                recognition.start();
+
+            }catch(e){
+
+                console.log(e);
+
+            }
+
+        };
+
+}
+
+function isGmail(command){
+
+    return /email|mail|gmail|send|compose|write.*email/i
+        .test(command);
+
+}
+
+async function processCommand(command){
+
+    const gmail =
+        isGmail(command);
+
+    status.textContent =
+        gmail
+        ? "Generating email..."
+        : "Finding song...";
+
+    try{
+
+        const response =
+            await fetch(
+                gmail
+                ? "/agent"
+                : "/youtube/play",
+                {
+
+                    method:
+                        "POST",
+
+                    headers:{
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:
+                        JSON.stringify({
+                            command:
+                                command
+                        })
+
+                }
+            );
+
+        const data =
+            await response.json();
+
+        if(
+            !response.ok ||
+            !data.success
+        ){
+
+            throw Error(
+                data.message ||
+                "Request failed"
+            );
+
+        }
+
+        if(gmail){
+
+            showEmail(
+                data
+            );
+
+        }else{
+
+            playYouTube(
+                data
+            );
+
+        }
+
+    }catch(error){
+
+        console.error(
+            error
+        );
+
+        status.textContent =
+            error.message ||
+            "Server connection failed";
+
+    }
+
+}
+
+function showEmail(data){
+
+    recipient.dataset.email =
+        data.recipient ||
+        "";
+
+    recipient.textContent =
+        data.recipient
+        ? "To: " +
+          data.recipient
+        : "Recipient not specified";
+
+    subject.value =
+        data.subject ||
+        "";
+
+    body.value =
+        data.body ||
+        "";
+
+    editor.style.display =
+        "block";
+
+    status.textContent =
+        "Email ready. Review or edit it.";
+
+}
+
+$("open").onclick =
+    () => {
+
+        const url =
+            "https://mail.google.com/mail/u/0/?" +
+            new URLSearchParams({
+
+                view:
+                    "cm",
+
+                fs:
+                    "1",
+
+                to:
+                    recipient.dataset.email ||
+                    "",
+
+                su:
+                    subject.value,
+
+                body:
+                    body.value
+
+            });
+
+        const win =
+            window.open(
+                url,
+                "NovaGmail"
+            );
+
+        if(!win){
+
+            status.textContent =
+                "Please allow popups for this site.";
+
+        }
+
+    };
+
+$("regen").onclick =
+    () => {
+
+        if(lastCommand){
+
+            processCommand(
+                lastCommand
+            );
+
+        }
+
+    };
+
+function playYouTube(data){
+
+    if(
+        !youtubeTab ||
+        youtubeTab.closed
+    ){
+
+        youtubeTab =
+            window.open(
+                data.url,
+                "NovaYouTube"
+            );
+
+    }else{
+
+        youtubeTab.location.href =
+            data.url;
+
+        youtubeTab.focus();
+
+    }
+
+    status.textContent =
+        "Playing";
+
+}
+
+</script>
+
+</body>
+
+</html>`
+};
+
+
+
 /* =========================================================
    LINE NUMBERS
    ========================================================= */
 
 function updateLineNumbers(index){
 
-  const editor = editors[index - 1];
-  const numbers = lineNumbers[index - 1];
+  const editor =
+    editors[index - 1];
 
-  if(!editor || !numbers)return;
+  const numbers =
+    lineNumbers[index - 1];
 
-  const lineCount =
-    editor.value.split("\n").length;
+  if(!editor || !numbers)
+    return;
+
+  const lines =
+    editor.value
+      ? editor.value.split("\n").length
+      : 1;
 
   let output = "";
 
-  for(let i = 1; i <= lineCount; i++){
+  for(
+    let i = 1;
+    i <= lines;
+    i++
+  ){
 
-    output += i + "\n";
+    output +=
+      i + "\n";
 
   }
 
@@ -786,6 +1665,7 @@ function updateLineNumbers(index){
     output;
 
 }
+
 
 
 /* =========================================================
@@ -801,7 +1681,8 @@ function setStatus(
   const status =
     editorStatuses[index - 1];
 
-  if(!status)return;
+  if(!status)
+    return;
 
   status.textContent =
     message;
@@ -811,174 +1692,110 @@ function setStatus(
 
   if(type){
 
-    status.classList.add(type);
+    status.classList.add(
+      type
+    );
 
   }
 
 }
 
 
+
 /* =========================================================
-   EDITOR INPUT
+   EDITOR EVENTS
    ========================================================= */
 
-editors.forEach((editor, position) => {
+editors.forEach(
+  (editor, position) => {
 
-  if(!editor)return;
+    if(!editor)
+      return;
 
-  const index =
-    position + 1;
+    const index =
+      position + 1;
 
+    editor.addEventListener(
+      "input",
+      () => {
 
-  editor.addEventListener(
-    "input",
-    () => {
-
-      updateLineNumbers(index);
-
-      setStatus(
-        index,
-        "Modified"
-      );
-
-    }
-  );
-
-
-  editor.addEventListener(
-    "scroll",
-    () => {
-
-      lineNumbers[index - 1].scrollTop =
-        editor.scrollTop;
-
-    }
-  );
-
-
-  editor.addEventListener(
-    "keydown",
-    event => {
-
-      if(event.key === "Tab"){
-
-        event.preventDefault();
-
-        const start =
-          editor.selectionStart;
-
-        const end =
-          editor.selectionEnd;
-
-        editor.value =
-          editor.value.substring(
-            0,
-            start
-          ) +
-          "    " +
-          editor.value.substring(
-            end
-          );
-
-        editor.selectionStart =
-          editor.selectionEnd =
-            start + 4;
-
-        updateLineNumbers(index);
+        updateLineNumbers(
+          index
+        );
 
         setStatus(
           index,
-          "Modified"
+          editor.value.trim()
+            ? "Modified"
+            : "Empty"
         );
 
       }
-
-    }
-  );
-
-
-  updateLineNumbers(index);
-
-});
-
-
-/* =========================================================
-   LOAD TEMPLATE CODE
-   ========================================================= */
-
-async function loadTemplateCode(){
-
-  try{
-
-    const response =
-      await fetch("/template");
-
-    if(!response.ok){
-
-      throw new Error(
-        "Template endpoint unavailable"
-      );
-
-    }
-
-    const data =
-      await response.json();
-
-
-    if(
-      !data.success ||
-      !data.templates
-    ){
-
-      throw new Error(
-        "Invalid template response"
-      );
-
-    }
-
-
-    for(let i = 1; i <= editorCount; i++){
-
-      const code =
-        data.templates[
-          `editor${i}`
-        ];
-
-      if(
-        code !== undefined &&
-        editors[i - 1]
-      ){
-
-        editors[i - 1].value =
-          code;
-
-        updateLineNumbers(i);
-
-        setStatus(
-          i,
-          "Loaded"
-        );
-
-      }
-
-    }
-
-  }catch(error){
-
-    console.error(
-      "Template loading error:",
-      error
     );
 
-    setStatus(
-      1,
-      "Template loading failed",
-      "error"
+    editor.addEventListener(
+      "scroll",
+      () => {
+
+        lineNumbers[
+          index - 1
+        ].scrollTop =
+          editor.scrollTop;
+
+      }
+    );
+
+    editor.addEventListener(
+      "keydown",
+      event => {
+
+        if(
+          event.key === "Tab"
+        ){
+
+          event.preventDefault();
+
+          const start =
+            editor.selectionStart;
+
+          const end =
+            editor.selectionEnd;
+
+          editor.value =
+            editor.value.substring(
+              0,
+              start
+            ) +
+            "    " +
+            editor.value.substring(
+              end
+            );
+
+          editor.selectionStart =
+            editor.selectionEnd =
+              start + 4;
+
+          updateLineNumbers(
+            index
+          );
+
+          setStatus(
+            index,
+            "Modified"
+          );
+
+        }
+
+      }
+    );
+
+    updateLineNumbers(
+      index
     );
 
   }
+);
 
-}
 
 
 /* =========================================================
@@ -990,26 +1807,35 @@ async function runDebugger(index){
   const editor =
     editors[index - 1];
 
-  if(!editor)return;
-
+  if(!editor)
+    return;
 
   const inputCode =
     editor.value;
 
+  if(!inputCode.trim()){
+
+    setStatus(
+      index,
+      "Editor is empty",
+      "error"
+    );
+
+    addResult(
+      index,
+      "Enter code before running the debugger.",
+      "error"
+    );
+
+    return;
+
+  }
 
   setStatus(
     index,
     "Running...",
     "loading"
   );
-
-
-  addResult(
-    index,
-    "Checking code...",
-    "loading"
-  );
-
 
   try{
 
@@ -1018,29 +1844,30 @@ async function runDebugger(index){
         "/compare",
         {
 
-          method: "POST",
+          method:
+            "POST",
 
-          headers: {
+          headers:{
             "Content-Type":
               "application/json"
           },
 
-          body: JSON.stringify({
+          body:
+            JSON.stringify({
 
-            editor_id: index,
+              editor_id:
+                index,
 
-            input_code:
-              inputCode
+              input_code:
+                inputCode
 
-          })
+            })
 
         }
       );
 
-
     const data =
       await response.json();
-
 
     if(!response.ok){
 
@@ -1050,7 +1877,6 @@ async function runDebugger(index){
       );
 
     }
-
 
     if(data.match){
 
@@ -1081,10 +1907,11 @@ async function runDebugger(index){
 
     }
 
-
   }catch(error){
 
-    console.error(error);
+    console.error(
+      error
+    );
 
     setStatus(
       index,
@@ -1092,7 +1919,6 @@ async function runDebugger(index){
       "Debugger failed",
       "error"
     );
-
 
     addResult(
       index,
@@ -1104,6 +1930,70 @@ async function runDebugger(index){
   }
 
 }
+
+
+
+/* =========================================================
+   FIX CODE
+   ========================================================= */
+
+function fixCode(index){
+
+  const editor =
+    editors[index - 1];
+
+  if(!editor)
+    return;
+
+  const defaultCode =
+    defaultCodes[index];
+
+  if(
+    defaultCode === undefined
+  ){
+
+    setStatus(
+      index,
+      "Default code unavailable",
+      "error"
+    );
+
+    return;
+
+  }
+
+  /*
+   * Completely replace
+   * the user's code.
+   */
+
+  editor.value =
+    defaultCode;
+
+  updateLineNumbers(
+    index
+  );
+
+  setStatus(
+    index,
+    "Default code restored",
+    "success"
+  );
+
+  addResult(
+    index,
+    "✓ Editor replaced with its default code.",
+    "success"
+  );
+
+  editor.focus();
+
+  editor.selectionStart = 0;
+
+  editor.selectionEnd = 0;
+
+}
+
 
 
 /* =========================================================
@@ -1121,7 +2011,6 @@ function addResult(
       "resultsContainer"
     );
 
-
   const empty =
     container.querySelector(
       ".empty-result"
@@ -1133,7 +2022,6 @@ function addResult(
 
   }
 
-
   const card =
     document.createElement(
       "div"
@@ -1142,26 +2030,32 @@ function addResult(
   card.className =
     "result-card";
 
-
   const title =
     document.createElement(
       "div"
     );
 
   title.className =
-    "result-title " +
-    (
-      type === "error"
-        ? "result-error"
-        : type === "success"
-          ? "result-success"
-          : ""
+    "result-title";
+
+  if(type === "error"){
+
+    title.classList.add(
+      "result-error"
     );
 
+  }
+
+  if(type === "success"){
+
+    title.classList.add(
+      "result-success"
+    );
+
+  }
 
   title.textContent =
     `${index}. ${fileNames[index]}`;
-
 
   const content =
     document.createElement(
@@ -1177,14 +2071,20 @@ function addResult(
   content.textContent =
     message;
 
+  card.appendChild(
+    title
+  );
 
-  card.appendChild(title);
+  card.appendChild(
+    content
+  );
 
-  card.appendChild(content);
-
-  container.prepend(card);
+  container.prepend(
+    card
+  );
 
 }
+
 
 
 /* =========================================================
@@ -1201,7 +2101,6 @@ function renderErrors(
       "resultsContainer"
     );
 
-
   const empty =
     container.querySelector(
       ".empty-result"
@@ -1213,7 +2112,6 @@ function renderErrors(
 
   }
 
-
   const card =
     document.createElement(
       "div"
@@ -1221,7 +2119,6 @@ function renderErrors(
 
   card.className =
     "result-card";
-
 
   const title =
     document.createElement(
@@ -1234,9 +2131,9 @@ function renderErrors(
   title.textContent =
     `${index}. ${fileNames[index]} — Issues`;
 
-
-  card.appendChild(title);
-
+  card.appendChild(
+    title
+  );
 
   if(!errors.length){
 
@@ -1251,287 +2148,153 @@ function renderErrors(
     item.textContent =
       "Code does not match the expected version.";
 
-    card.appendChild(item);
+    card.appendChild(
+      item
+    );
 
   }else{
 
-    errors.forEach(error => {
+    errors.forEach(
+      error => {
 
-      const item =
-        document.createElement(
-          "div"
+        const item =
+          document.createElement(
+            "div"
+          );
+
+        item.className =
+          "error-item";
+
+        if(
+          typeof error ===
+          "string"
+        ){
+
+          item.textContent =
+            error;
+
+        }else{
+
+          let output = "";
+
+          if(error.type){
+
+            output +=
+              "Type: " +
+              error.type +
+              "\n";
+
+          }
+
+          if(error.line){
+
+            output +=
+              "Line: " +
+              error.line +
+              "\n";
+
+          }
+
+          if(error.message){
+
+            output +=
+              error.message +
+              "\n";
+
+          }
+
+          if(error.expected){
+
+            output +=
+              "Expected: " +
+              error.expected +
+              "\n";
+
+          }
+
+          if(error.found){
+
+            output +=
+              "Found: " +
+              error.found +
+              "\n";
+
+          }
+
+          if(error.expected_line){
+
+            output +=
+              "Expected line: " +
+              error.expected_line +
+              "\n";
+
+          }
+
+          if(error.found_line){
+
+            output +=
+              "Found line: " +
+              error.found_line +
+              "\n";
+
+          }
+
+          if(!output){
+
+            output =
+              JSON.stringify(
+                error,
+                null,
+                2
+              );
+
+          }
+
+          item.textContent =
+            output.trim();
+
+        }
+
+        card.appendChild(
+          item
         );
 
-      item.className =
-        "error-item";
-
-
-      if(typeof error === "string"){
-
-        item.textContent =
-          error;
-
-      }else{
-
-        let output = "";
-
-
-        if(error.type){
-
-          output +=
-            "Type: " +
-            error.type +
-            "\n";
-
-        }
-
-
-        if(error.line){
-
-          output +=
-            "Line: " +
-            error.line +
-            "\n";
-
-        }
-
-
-        if(error.message){
-
-          output +=
-            error.message +
-            "\n";
-
-        }
-
-
-        if(error.expected){
-
-          output +=
-            "Expected: " +
-            error.expected +
-            "\n";
-
-        }
-
-
-        if(error.found){
-
-          output +=
-            "Found: " +
-            error.found +
-            "\n";
-
-        }
-
-
-        if(error.expected_line){
-
-          output +=
-            "Expected line: " +
-            error.expected_line +
-            "\n";
-
-        }
-
-
-        if(error.found_line){
-
-          output +=
-            "Found line: " +
-            error.found_line +
-            "\n";
-
-        }
-
-
-        if(!output){
-
-          output =
-            JSON.stringify(
-              error,
-              null,
-              2
-            );
-
-        }
-
-
-        item.textContent =
-          output.trim();
-
       }
-
-
-      card.appendChild(item);
-
-    });
+    );
 
   }
 
-
-  container.prepend(card);
-
-}
-
-
-/* =========================================================
-   FIX CODE
-   ========================================================= */
-
-async function fixCode(index){
-
-  const editor =
-    editors[index - 1];
-
-  if(!editor)return;
-
-
-  setStatus(
-    index,
-    "Applying fix...",
-    "loading"
+  container.prepend(
+    card
   );
 
-
-  try{
-
-    const response =
-      await fetch(
-        "/fix",
-        {
-
-          method: "POST",
-
-          headers: {
-            "Content-Type":
-              "application/json"
-          },
-
-          body: JSON.stringify({
-
-            editor_id: index
-
-          })
-
-        }
-      );
-
-
-    const data =
-      await response.json();
-
-
-    if(!response.ok){
-
-      throw new Error(
-        data.message ||
-        "Fix request failed"
-      );
-
-    }
-
-
-    if(
-      !data.fixed_code &&
-      data.fixed_code !== ""
-    ){
-
-      throw new Error(
-        "No fixed code returned"
-      );
-
-    }
-
-
-    editor.value =
-      data.fixed_code;
-
-
-    updateLineNumbers(index);
-
-
-    setStatus(
-      index,
-      "Fixed",
-      "success"
-    );
-
-
-    addResult(
-      index,
-      "✓ Fixed code loaded into the editor.",
-      "success"
-    );
-
-
-  }catch(error){
-
-    console.error(error);
-
-    setStatus(
-      index,
-      error.message ||
-      "Fix failed",
-      "error"
-    );
-
-
-    addResult(
-      index,
-      error.message ||
-      "Fix failed",
-      "error"
-    );
-
-  }
-
 }
 
 
+
 /* =========================================================
-   ESCAPE HTML
+   INITIAL STATE
    ========================================================= */
 
-function escapeHtml(value){
+for(
+  let i = 1;
+  i <= editorCount;
+  i++
+){
 
-  return String(value)
-    .replace(
-      /&/g,
-      "&amp;"
-    )
-    .replace(
-      /</g,
-      "&lt;"
-    )
-    .replace(
-      />/g,
-      "&gt;"
-    )
-    .replace(
-      /"/g,
-      "&quot;"
-    )
-    .replace(
-      /'/g,
-      "&#039;"
-    );
+  editors[i - 1].value =
+    "";
+
+  updateLineNumbers(
+    i
+  );
+
+  setStatus(
+    i,
+    "Empty"
+  );
 
 }
-
-
-/* =========================================================
-   INITIALIZE
-   ========================================================= */
-
-document.addEventListener(
-  "DOMContentLoaded",
-  () => {
-
-    loadTemplateCode();
-
-  }
-);
 
 </script>
 
