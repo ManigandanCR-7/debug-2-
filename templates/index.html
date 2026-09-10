@@ -819,207 +819,118 @@
 
       <!-- ==================================================
            EDITOR 1
-           app/__init__.py
+           gmail/__init__.py
            ================================================== -->
 
-      <div class="editor-card">
-
-        <div class="editor-header">
-
-          <span class="editor-title">
-            Code Editor 1
-          </span>
-
-          <span class="file-name">
-            app/__init__.py
-          </span>
-
-        </div>
-
-
-        <div class="editor-wrapper">
-
-          <div
-            class="line-numbers"
-            id="lineNumbers1"
-          >
-            <div class="line-number">1</div>
-          </div>
-
-          <textarea
-            id="codeEditor1"
-            placeholder="Paste or write your Python code here..."
-            spellcheck="false"
-          ></textarea>
-
-        </div>
-
-
-        <div class="editor-actions">
-
-          <button
-            class="btn-editor btn-inspect"
-            onclick="runDebugger(1)"
-          >
-            ▶ Run
-          </button>
-
-          <button
-            class="btn-editor btn-fix"
-            onclick="fixCode(1)"
-          >
-            ✓ Fix
-          </button>
-
-        </div>
-
-
-        <div
-          class="editor-status"
-          id="editorStatus1"
-        >
-          Ready
-        </div>
-
-      </div>
-
-
+from .gmail_write import is_email_command, extract_email, create_gmail_url
+from .gmail_gen import generate_email_with_gemini
 
       <!-- ==================================================
            EDITOR 2
-           app/youtube/__init__.py
+            gmail/gmail_gen.py
+
            ================================================== -->
 
-      <div class="editor-card">
+   import os
+import json
+import re
+import time
+import random
+import urllib.request
+import urllib.error
 
-        <div class="editor-header">
+API_KEY = os.getenv("GEMINI_API_KEY", "")
+MODEL = os.getenv("GEMINI_MODEL", "gemini-3.5-flash")
 
-          <span class="editor-title">
-            Code Editor 2
-          </span>
+def generate_email_with_gemini(command):
+    if not API_KEY:
+        raise RuntimeError("GEMINI_API_KEY is missing.")
 
-          <span class="file-name">
-            app/youtube/__init__.py
-          </span>
+    prompt = f"""
+You are a professional Gmail email writing assistant.
 
-        </div>
+Convert the user's voice command into a professional email.
 
+Rules:
+- Do not copy the command literally.
+- Do not explain anything.
+- Do not invent names, dates, prices, companies, attachments, or facts.
+- Keep the email natural and concise.
+- Include an appropriate greeting and closing.
 
-        <div class="editor-wrapper">
+Output exactly:
 
-          <div
-            class="line-numbers"
-            id="lineNumbers2"
-          >
-            <div class="line-number">1</div>
-          </div>
+SUBJECT: <subject>
+BODY:
+<email body>
 
-          <textarea
-            id="codeEditor2"
-            placeholder="Paste or write your Python code here..."
-            spellcheck="false"
-          ></textarea>
+User command:
+{command}
+"""
 
-        </div>
+    url = (
+        f"https://generativelanguage.googleapis.com/"
+        f"v1beta/models/{MODEL}:generateContent"
+    )
 
+    payload = {
+        "contents": [{"parts": [{"text": prompt}]}],
+        "generationConfig": {
+            "temperature": 0.7,
+            "maxOutputTokens": 800
+        }
+    }
 
-        <div class="editor-actions">
+    req = urllib.request.Request(
+        url,
+        data=json.dumps(payload).encode(),
+        headers={
+            "Content-Type": "application/json",
+            "x-goog-api-key": API_KEY
+        },
+        method="POST"
+    )
 
-          <button
-            class="btn-editor btn-inspect"
-            onclick="runDebugger(2)"
-          >
-            ▶ Run
-          </button>
+    for attempt in range(4):
+        try:
+            with urllib.request.urlopen(req, timeout=30) as response:
+                data = json.loads(response.read().decode())
 
-          <button
-            class="btn-editor btn-fix"
-            onclick="fixCode(2)"
-          >
-            ✓ Fix
-          </button>
+            text = data["candidates"][0]["content"]["parts"][0]["text"]
+            text = re.sub(r"```(?:text)?|```", "", text).strip()
 
-        </div>
+            subject = re.search(r"SUBJECT:\s*(.+)", text, re.I)
+            body = re.search(r"BODY:\s*([\s\S]+)", text, re.I)
 
+            if not subject or not body:
+                raise RuntimeError("Gemini returned an invalid email format.")
 
-        <div
-          class="editor-status"
-          id="editorStatus2"
-        >
-          Ready
-        </div>
+            return {
+                "subject": subject.group(1).strip(),
+                "body": body.group(1).strip()
+            }
 
-      </div>
+        except urllib.error.HTTPError as e:
+            if e.code != 429 or attempt == 3:
+                try:
+                    detail = e.read().decode()
+                except Exception:
+                    detail = str(e)
+                raise RuntimeError(f"Gemini API error: {detail}")
 
+            time.sleep((2 ** attempt) + random.random())
 
+        except Exception:
+            if attempt == 3:
+                raise
+            time.sleep(1)
 
       <!-- ==================================================
            EDITOR 3
-           app/youtube/player.py
+           combined-agent/app/gmail//gmail_write.py
            ================================================== -->
 
-      <div class="editor-card">
-
-        <div class="editor-header">
-
-          <span class="editor-title">
-            Code Editor 3
-          </span>
-
-          <span class="file-name">
-            app/youtube/player.py
-          </span>
-
-        </div>
-
-
-        <div class="editor-wrapper">
-
-          <div
-            class="line-numbers"
-            id="lineNumbers3"
-          >
-            <div class="line-number">1</div>
-          </div>
-
-          <textarea
-            id="codeEditor3"
-            placeholder="Paste or write your Python code here..."
-            spellcheck="false"
-          ></textarea>
-
-        </div>
-
-
-        <div class="editor-actions">
-
-          <button
-            class="btn-editor btn-inspect"
-            onclick="runDebugger(3)"
-          >
-            ▶ Run
-          </button>
-
-          <button
-            class="btn-editor btn-fix"
-            onclick="fixCode(3)"
-          >
-            ✓ Fix
-          </button>
-
-        </div>
-
-
-        <div
-          class="editor-status"
-          id="editorStatus3"
-        >
-          Ready
-        </div>
-
-      </div>
-
-
+      
 
       <!-- ==================================================
            EDITOR 4
